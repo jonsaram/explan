@@ -23,7 +23,7 @@ import org.anyframe.exception.BaseException;
  * This MovieFinderException class contains various constructor for different
  * functionality on this project.
  * 
- * @author Sooyeon Park
+ * @author Sooyeon Parkaa
  */
 public class MovieFinderException extends BaseException {
 
