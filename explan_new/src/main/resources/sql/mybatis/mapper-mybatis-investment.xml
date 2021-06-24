@@ -1,0 +1,324 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Investment">
+
+	<!-- 투자자산 리스트 -->
+	<select id="getInvestmentList" resultType="java.util.HashMap">
+		SELECT   PLAN_NUM
+				<if test='!"Y".equals(exceptKey)'>
+				,FI.INVESTMENT_NUM
+				</if>  
+		    	,INVESTMENT_TYPE 
+		    	,INVESTMENT_TITLE
+		    	,START_DATE      
+		    	,END_TERM        
+		    	,INTEREST_RATE   
+		    	,INTEREST_TYPE   
+		    	,TAX             
+		    	,TERM            
+		    	,REGULAR_MONEY   
+		    	,BASE_MONEY      
+		    	,COMMENT      	 
+		    	,DATE_FORMAT(FI.CREATE_DATE, '%Y-%m-%d') AS CREATE_DATE
+				,PRE_FEE
+				,AFTER_PRE_FEE
+				,PRE_FEE2
+				,NORMAL_FEE
+				,CASE
+					WHEN PRE_FEE IS NOT NULL AND AFTER_PRE_FEE IS NOT NULL AND NOT PRE_FEE = '' AND NOT AFTER_PRE_FEE = ''
+						THEN CONCAT(CONCAT(CONCAT(CONCAT(PRE_FEE,'/'),AFTER_PRE_FEE),'/'),PRE_FEE2)
+					WHEN PRE_FEE IS NOT NULL AND (AFTER_PRE_FEE IS NULL OR AFTER_PRE_FEE = '')
+						THEN PRE_FEE
+					ELSE
+						NULL
+				 END AS FEE
+				,FI.STATE
+		 FROM 
+		 	 T_FIN_INVESTMENT FI
+		 	 	LEFT OUTER JOIN T_FIN_INVESTMENT_SUBDATA FIS ON FI.INVESTMENT_NUM = FIS.INVESTMENT_NUM
+		 	,T_COM_FINANCY_PLAN_LINK FIP
+		 	,T_COM_COMMON_CODE CCC
+		 WHERE 
+ 				FI.INVESTMENT_NUM  	= FIP.FINANCY_NUM
+	 		AND FI.INVESTMENT_TYPE 	= CCC.COMMON_CODE
+	 		AND CCC.COMMON_TCD 		= 'INVESTMENT_TYPE'
+		<if test="subId != null">
+	 		AND SUB_ID = #{subId}
+		</if>	
+		 	AND FIP.PLAN_NUM 		= #{planNum}
+		 	AND DEL_YN 				= 'N'
+	 	 ORDER BY CCC.ORDER_SEQ
+	</select>
+
+	<!-- 투자자산 저장 -->
+	<update id="saveInvestment" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_INVESTMENT ( 
+						 INVESTMENT_NUM  
+						,INVESTMENT_TYPE 
+						,INVESTMENT_TITLE
+						,START_DATE      
+						,END_TERM        
+						,INTEREST_RATE   
+						,INTEREST_TYPE   
+						,TAX             
+						,TERM            
+						,REGULAR_MONEY   
+						,BASE_MONEY      
+						,COMMENT      	
+						,STATE      	
+						,CREATE_DATE     
+					)                     
+		VALUES		(
+						 #{INVESTMENT_NUM  }
+						,#{INVESTMENT_TYPE }
+						,#{INVESTMENT_TITLE}
+						,#{START_DATE      }
+						,#{END_TERM        }
+						,#{INTEREST_RATE   }
+						,#{INTEREST_TYPE   }
+						,#{TAX             }
+						,#{TERM            }
+						,#{REGULAR_MONEY   }
+						,#{BASE_MONEY      }
+						,#{COMMENT         }
+						,#{STATE           }
+						,NOW()
+					)
+		ON DUPLICATE KEY 
+		UPDATE 
+						 INVESTMENT_NUM  	 = #{INVESTMENT_NUM     } 
+						,INVESTMENT_TYPE     = #{INVESTMENT_TYPE    } 
+						,INVESTMENT_TITLE    = #{INVESTMENT_TITLE   } 
+						,START_DATE          = #{START_DATE         } 
+						,END_TERM            = #{END_TERM           } 
+						,INTEREST_RATE       = #{INTEREST_RATE      } 
+						,INTEREST_TYPE       = #{INTEREST_TYPE      } 
+						,TAX                 = #{TAX                } 
+						,TERM                = #{TERM               } 
+						,REGULAR_MONEY       = #{REGULAR_MONEY      } 
+						,BASE_MONEY          = #{BASE_MONEY         } 
+						,COMMENT      	     = #{COMMENT      	    } 
+						,STATE      	     = #{STATE      	    } 
+	</update>
+	<update id="saveInvestmentSubdata" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_INVESTMENT_SUBDATA 
+		(
+			 INVESTMENT_NUM
+			,PRE_FEE
+			,AFTER_PRE_FEE
+			,PRE_FEE2
+			,NORMAL_FEE	
+		) VALUES (
+			 #{INVESTMENT_NUM	}
+			,#{PRE_FEE          }
+			,#{AFTER_PRE_FEE    }
+			,#{PRE_FEE2         }
+			,#{NORMAL_FEE	    }
+		)
+		ON DUPLICATE KEY 
+		UPDATE           
+			 PRE_FEE		= #{PRE_FEE         }
+			,AFTER_PRE_FEE  = #{AFTER_PRE_FEE   }
+			,PRE_FEE2       = #{PRE_FEE2        }
+			,NORMAL_FEE	    = #{NORMAL_FEE	    } 
+	</update>
+
+	<!-- 부동산자산 리스트 -->
+	<select id="getImmovableList" resultType="java.util.HashMap">
+		SELECT 
+			 IMMOVABLE_TYPE
+			<if test='!"Y".equals(exceptKey)'>
+			,IMMOVABLE_NUM
+			</if>  
+			,IMMOVABLE_NAME
+			,IMMOVABLE_VALUE
+			,INFLATION_RATE
+			,LOCATION
+			,COMMENT
+			,START_DATE
+			,FI.STATE
+	    	,DATE_FORMAT(FI.CREATE_DATE, '%Y-%m-%d') AS CREATE_DATE
+		FROM 
+			 T_FIN_IMMOVABLE 			FI
+			,T_COM_FINANCY_PLAN_LINK 	FIP
+		WHERE			
+				FI.IMMOVABLE_NUM  	= FIP.FINANCY_NUM
+		 	AND FIP.PLAN_NUM 		= #{planNum}
+		 	AND DEL_YN 				= 'N'
+	</select>
+		
+	<!-- 부동산 자산 저장 -->
+	<update id="saveImmovable" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_IMMOVABLE ( 
+						 IMMOVABLE_NUM
+						,IMMOVABLE_TYPE
+						,IMMOVABLE_NAME
+						,IMMOVABLE_VALUE
+						,INFLATION_RATE
+						,LOCATION
+						,COMMENT
+						,STATE
+						,START_DATE
+						,CREATE_DATE
+					)                     
+		VALUES		(
+						 #{IMMOVABLE_NUM	}
+						,#{IMMOVABLE_TYPE	}
+						,#{IMMOVABLE_NAME	}
+						,#{IMMOVABLE_VALUE	}
+						,#{INFLATION_RATE	}
+						,#{LOCATION			}
+						,#{COMMENT			}
+						,#{STATE			}
+						,#{START_DATE		}
+						,NOW()
+					)
+		ON DUPLICATE KEY 
+		UPDATE 
+						  IMMOVABLE_NUM    	 = #{IMMOVABLE_NUM  } 
+						 ,IMMOVABLE_TYPE   	 = #{IMMOVABLE_TYPE } 
+						 ,IMMOVABLE_NAME   	 = #{IMMOVABLE_NAME } 
+						 ,IMMOVABLE_VALUE  	 = #{IMMOVABLE_VALUE} 
+						 ,INFLATION_RATE   	 = #{INFLATION_RATE } 
+						 ,LOCATION         	 = #{LOCATION       } 
+						 ,COMMENT          	 = #{COMMENT        } 
+						 ,STATE          	 = #{STATE        	} 
+						 ,START_DATE       	 = #{START_DATE		} 
+	</update>
+
+
+	<!-- 부채 리스트 -->
+	<select id="getLoanList" resultType="java.util.HashMap">
+		SELECT
+			 LOAN_TYPE			
+			<if test='!"Y".equals(exceptKey)'>
+		 	,LOAN_NUM			
+			</if>  
+			,LOAN_COMPANY		
+			,LOAN_TOTAL		    
+			,LOAN_RATE			
+			,START_DATE		    
+			,IFNULL(KUCHI_TERM	, 0) KUCHI_TERM		    
+			,IFNULL(PAYBACK_TERM, 0) PAYBACK_TERM		    
+			,PAYBACK_TYPE		
+			,PAYBACK_EACH_MONTH 
+			,COMMENT			
+			,FL.STATE
+	    	,DATE_FORMAT(FL.CREATE_DATE, '%Y-%m-%d') AS CREATE_DATE
+		FROM
+			 T_FIN_LOAN 				FL
+			,T_COM_FINANCY_PLAN_LINK 	FIP
+		WHERE
+				FL.LOAN_NUM  	= FIP.FINANCY_NUM
+		 	AND FIP.PLAN_NUM 	= #{planNum}
+		 	AND DEL_YN 			= 'N'
+	</select>
+
+	<!-- 부채 저장 -->
+	<update id="saveLoan" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_LOAN (
+						 LOAN_NUM			
+						,LOAN_TYPE			
+						,LOAN_COMPANY		
+						,LOAN_TOTAL		   
+						,LOAN_RATE			
+						,START_DATE		   
+						,KUCHI_TERM		   
+						,PAYBACK_TERM		
+						,PAYBACK_TYPE		
+						,PAYBACK_EACH_MONTH
+						,COMMENT			
+						,STATE			
+						,CREATE_DATE    
+					)
+		VALUES		(
+						 #{LOAN_NUM				}
+						,#{LOAN_TYPE			}
+						,#{LOAN_COMPANY			}
+						,#{LOAN_TOTAL		    }
+						,#{LOAN_RATE			}
+						,#{START_DATE		    }
+						,${KUCHI_TERM		    }
+						,${PAYBACK_TERM		    }
+						,#{PAYBACK_TYPE			}
+						,#{PAYBACK_EACH_MONTH 	}
+						,#{COMMENT				}
+						,#{STATE				}
+						,NOW()
+					)
+		ON DUPLICATE KEY
+		UPDATE
+						 LOAN_TYPE			= #{LOAN_TYPE			}
+						,LOAN_COMPANY		= #{LOAN_COMPANY		}
+						,LOAN_TOTAL			= #{LOAN_TOTAL		    }
+						,LOAN_RATE			= #{LOAN_RATE			}
+						,START_DATE			= #{START_DATE		    }
+						,KUCHI_TERM			= ${KUCHI_TERM		    }
+						,PAYBACK_TERM		= ${PAYBACK_TERM		}
+						,PAYBACK_TYPE		= #{PAYBACK_TYPE		}
+						,PAYBACK_EACH_MONTH = #{PAYBACK_EACH_MONTH 	}
+						,COMMENT			= #{COMMENT				}
+						,STATE          	= #{STATE        		} 
+	</update>
+
+	<update id="saveCashflow" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_CASHFLOW (
+						 PLAN_NUM	
+						,ITEM_NAME	
+						,ITEM_VALUE	
+						,ITEM_TYPE	
+						,CREATE_DATE
+					)
+		VALUES		(
+						 #{PLAN_NUM	    }
+						,#{ITEM_NAME	}
+						,${ITEM_VALUE	}
+						,#{ITEM_TYPE	}
+						,NOW()
+					)
+		ON DUPLICATE KEY
+		UPDATE
+						 PLAN_NUM	= #{PLAN_NUM	}
+						,ITEM_NAME	= #{ITEM_NAME	}
+						,ITEM_VALUE	= ${ITEM_VALUE	}
+						,ITEM_TYPE	= #{ITEM_TYPE	}
+						,UPDATE_DATE= NOW()
+	</update>
+
+	<update id="copyCashflow" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_CASHFLOW (
+			 PLAN_NUM	
+			,ITEM_NAME	
+			,ITEM_VALUE	
+			,ITEM_TYPE	
+			,CREATE_DATE
+		)
+		SELECT
+			 #{targetPlanNum}	
+			,ITEM_NAME	
+			,ITEM_VALUE	
+			,ITEM_TYPE	
+			,NOW()
+		FROM 
+			T_FIN_CASHFLOW
+		WHERE
+			PLAN_NUM = #{planNum}
+	</update>
+
+	<!-- 현금 흐름 리스트 -->
+	<select id="getCashflowList" resultType="java.util.HashMap">
+		SELECT
+		 	 PLAN_NUM	
+			,ITEM_NAME	
+			,ITEM_VALUE	
+			,ITEM_TYPE	
+	    	,DATE_FORMAT(CREATE_DATE, '%Y-%m-%d') AS CREATE_DATE
+		FROM
+			T_FIN_CASHFLOW
+		WHERE
+			PLAN_NUM = #{planNum}
+	</select>
+	
+</mapper>

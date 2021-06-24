@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Insurance">
+
+	<!-- Category 리스트 -->
+	<select id="getCategoryList" resultType="java.util.HashMap">
+		SELECT 
+			 CATEGORY_NUM
+			,CATEGORY_NAME
+		FROM T_FIN_CATEGORY
+	</select>
+	<!-- 보험 리스트 -->
+	<select id="getInsuranceList" resultType="java.util.HashMap">
+		SELECT PLAN_NUM,
+		       INSURANCE_NUM,
+		       INSURANCE_TYPE,
+		       COMPANY_NAME,
+		       TITLE,
+		       CONTRACTOR,
+		       PAY_EACH_MONTH,
+		       START_DATE,
+		       GUARANTEE_TERM,
+		       GUARANTEE_TERM_TYPE,
+		       PAY_TERM,
+		       PAY_TERM_TYPE,
+		       COMMENT,
+		       FI.STATE,
+		       DATE_FORMAT(FI.CREATE_DATE, '%Y-%m-%d')
+		       DEL_YN,
+		       (
+		       		SELECT group_concat(CONCAT(CONCAT(INSURED_NAME ,'/'), INSURED_BIRTH_YEAR) SEPARATOR ',' ) 
+					FROM T_FIN_INSURED ST
+					WHERE ST.INSURANCE_NUM = FI.INSURANCE_NUM
+			   ) INSURED_INFO,
+		       (
+		       		SELECT group_concat(INSURED_NUM SEPARATOR ',' ) 
+				    FROM T_FIN_INSURED ST2
+				    WHERE ST2.INSURANCE_NUM = FI.INSURANCE_NUM
+			   ) INSURED_NUM_LIST			   
+		 FROM T_FIN_INSURANCE FI, T_COM_FINANCY_PLAN_LINK FIP
+		 WHERE 
+		 		FI.INSURANCE_NUM = FIP.FINANCY_NUM
+		 	AND FIP.PLAN_NUM = #{planNum}
+		 	AND DEL_YN = 'N'
+	</select>
+	<!-- 보험 저장 -->
+	<update id="saveInsurance" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_INSURANCE 
+		            (
+						 INSURANCE_NUM
+						,INSURANCE_TYPE
+						,COMPANY_NAME
+						,TITLE
+						,CONTRACTOR
+						,PAY_EACH_MONTH
+						,START_DATE
+						,GUARANTEE_TERM
+						,GUARANTEE_TERM_TYPE
+						,PAY_TERM
+						,PAY_TERM_TYPE
+						,COMMENT
+						,STATE
+						,CREATE_DATE
+		            ) 
+		VALUES      (
+						 #{INSURANCE_NUM         }
+						,#{INSURANCE_TYPE        }
+						,#{COMPANY_NAME          }
+						,#{TITLE                 }
+						,#{CONTRACTOR            }
+						,#{PAY_EACH_MONTH        }
+						,#{START_DATE            }
+						,#{GUARANTEE_TERM        }
+						,#{GUARANTEE_TERM_TYPE   }
+						,#{PAY_TERM              }
+						,#{PAY_TERM_TYPE         }
+						,#{COMMENT               }
+						,#{STATE               	 }
+						,now()
+		            )  
+		ON DUPLICATE KEY 
+		UPDATE 
+						 INSURANCE_NUM			= #{INSURANCE_NUM         } 
+						,INSURANCE_TYPE         = #{INSURANCE_TYPE        } 
+						,COMPANY_NAME           = #{COMPANY_NAME          } 
+						,TITLE                  = #{TITLE                 } 
+						,CONTRACTOR             = #{CONTRACTOR            } 
+						,PAY_EACH_MONTH         = #{PAY_EACH_MONTH        } 
+						,START_DATE             = #{START_DATE            } 
+						,GUARANTEE_TERM         = #{GUARANTEE_TERM        } 
+						,GUARANTEE_TERM_TYPE    = #{GUARANTEE_TERM_TYPE   } 
+						,PAY_TERM               = #{PAY_TERM              } 
+						,PAY_TERM_TYPE          = #{PAY_TERM_TYPE         } 
+						,COMMENT                = #{COMMENT               } 
+						,STATE                	= #{STATE                 } 
+	</update>
+
+	<!-- 피보험자 저장 -->
+	<update id="saveInsured" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_INSURED 
+        (
+			 INSURANCE_NUM
+			,INSURED_NUM
+			,INSURED_NAME
+			,INSURED_BIRTH_YEAR
+        ) 
+		VALUES      
+		(
+			 #{INSURANCE_NUM         }
+			,#{INSURED_NUM        	 }
+			,#{INSURED_NAME          }
+			,#{INSURED_BIRTH_YEAR    }
+        )
+	</update>		            
+	<!-- 피보험자 삭제 -->
+	<delete id="deleteInsured" parameterType="java.lang.String">
+		DELETE FROM T_FIN_INSURED WHERE INSURANCE_NUM = #{INSURANCE_NUM} 
+	</delete>
+
+	<!-- 담보 리스트 -->
+	<select id="getDamboList" resultType="java.util.HashMap">
+		SELECT
+		     DAMBO_NUM
+		    ,FC.CATEGORY_NUM
+		    ,CATEGORY_NAME
+		    ,DAMBO_NAME
+		    ,FD.USER_ID
+		FROM T_FIN_CATEGORY FC, T_FIN_DAMBO FD
+		WHERE 1=1
+			AND FC.CATEGORY_NUM = FD.CATEGORY_NUM
+			AND FD.USER_ID IN ('*common*', #{USER_ID})
+		ORDER BY FC.CATEGORY_NUM, USER_ID, DAMBO_NUM			
+	</select>
+	<!-- 담보 입력값 저장 -->
+	<update id="saveInsuranceDambo" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_INSURANCE_DAMBO 
+        (
+			 INSURANCE_DAMBO_NUM
+			,INSURANCE_MONEY
+			,INSURANCE_NUM
+			,INSURED_NUM
+			,DAMBO_NUM
+			,VALIDITY
+        ) 
+		VALUES      
+		(
+			 #{INSURANCE_DAMBO_NUM}
+			,#{INSURANCE_MONEY    }
+			,#{INSURANCE_NUM      }
+			,#{INSURED_NUM        }
+			,#{DAMBO_NUM          }
+			,'Y'
+        )
+	</update>		            
+	<!-- 담보 입력값 삭제 -->
+	<update id="deleteInsuranceDambo" parameterType="java.util.HashMap">
+		DELETE FROM T_FIN_INSURANCE_DAMBO
+		WHERE 1=1
+			AND INSURANCE_NUM 	= #{INSURANCE_NUM      }
+			AND INSURED_NUM 	= #{INSURED_NUM        }
+	</update>		            
+
+	<!-- 각 보험 담보 리스트 -->
+	<select id="getInsuranceDamboList" resultType="java.util.HashMap">
+		SELECT
+		   FID.INSURANCE_DAMBO_NUM
+		  ,FID.INSURANCE_MONEY    
+		  ,FID.INSURANCE_NUM      
+		  ,FID.INSURED_NUM        
+		  ,FID.DAMBO_NUM
+		  ,FI.INSURED_NAME          
+		FROM 
+			 T_FIN_INSURED			FI
+			,T_FIN_INSURANCE_DAMBO 	FID
+		WHERE 1=1
+			AND FI.INSURANCE_NUM 	= FID.INSURANCE_NUM
+			AND FI.INSURED_NUM 		= FID.INSURED_NUM
+			AND FID.INSURANCE_NUM	= #{INSURANCE_NUM      }
+		<if test="INSURED_NUM != null">
+			AND FID.INSURED_NUM 	= #{INSURED_NUM        }
+		</if>
+			AND VALIDITY = 'Y'
+	</select>
+	<!-- 담보 입력값 저장 -->
+	<update id="saveUserDamboList" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_DAMBO 
+        (
+			 DAMBO_NUM
+			,CATEGORY_NUM
+			,DAMBO_NAME
+			,USER_ID
+        ) 
+		VALUES      
+		(
+			 #{DAMBO_NUM   }
+			,#{CATEGORY_NUM}
+			,#{DAMBO_NAME  }
+			,#{USER_ID     }
+        )
+		ON DUPLICATE KEY 
+		UPDATE 
+			 CATEGORY_NUM		= #{CATEGORY_NUM} 
+			,DAMBO_NAME			= #{DAMBO_NAME} 
+	</update>		            
+	<!-- 담보 입력값 삭제 -->
+	<update id="deleteUserDamboList" parameterType="java.util.HashMap">
+		DELETE FROM T_FIN_DAMBO
+		<where>
+			USER_ID = #{USER_ID}
+			<if test="deleteDamboList != null">
+				${deleteDamboList}
+			</if>
+			<if test="deleteDamboList == null || deleteDamboList == ''">
+				AND 1=2
+			</if>
+		</where>				
+	</update>		            
+	<!-- 담보 그룹 리스트 -->
+	<select id="getDamboGroupList" resultType="java.util.HashMap">
+		SELECT
+		    DAMBO_NUM
+		   ,PIVOT_VALUE
+		FROM T_FIN_DAMBO_GROUP
+		WHERE 
+				USER_ID 	= #{USER_ID}
+			AND	GROUP_NUM 	= #{GROUP_NUM}	
+	</select>
+	<!-- 담보 그룹 리스트 저장 -->
+	<update id="saveDamboGroupList" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_DAMBO_GROUP
+        (
+        	 USER_ID
+			,GROUP_NUM
+			,DAMBO_NUM
+			,PIVOT_VALUE
+        ) 
+		VALUES      
+		(
+			 #{USER_ID   	}
+			,#{GROUP_NUM 	}
+			,#{DAMBO_NUM 	}
+			<choose>
+				<when test="PIVOT_VALUE == null || PIVOT_VALUE == ''">
+				,NULL
+				</when>
+				<otherwise>
+				,#{PIVOT_VALUE}
+				</otherwise>
+			</choose>
+       ) 
+	</update>
+			            
+	<!-- 담보 그룹 정보 리스트 -->
+	<select id="getDamboGroupInfoList" resultType="java.util.HashMap">
+		SELECT
+		   GROUP_NUM
+		  ,GROUP_NAME    
+		  ,BASE_CHECK    
+		  ,CHART_CHECK    
+		FROM T_FIN_DAMBO_GROUP_INFO
+		WHERE USER_ID = #{USER_ID}		
+	</select>
+	<!-- 담보 그룹 리스트 삭제 -->
+	<update id="deleteDamboGroupList" parameterType="java.util.HashMap">
+		DELETE FROM T_FIN_DAMBO_GROUP
+		<where>
+				USER_ID 	= #{USER_ID}
+			AND GROUP_NUM 	= #{GROUP_NUM}
+		</where>				
+	</update>		            
+	<!-- 담보 그룹 정보 저장 -->
+	<update id="saveDamboGroupInfoList" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_DAMBO_GROUP_INFO 
+        (
+        	 USER_ID
+			,GROUP_NUM
+			,GROUP_NAME
+		  	,BASE_CHECK    
+		  	,CHART_CHECK    
+        ) 
+		VALUES      
+		(
+			 #{USER_ID   }
+			,#{GROUP_NUM }
+			,#{GROUP_NAME}
+			,#{BASE_CHECK}
+			,#{CHART_CHECK}
+        )
+		ON DUPLICATE KEY 
+		UPDATE 
+			  GROUP_NAME	= #{GROUP_NAME} 
+			 ,BASE_CHECK	= #{BASE_CHECK} 
+			 ,CHART_CHECK	= #{CHART_CHECK} 
+	</update>		            
+	<!-- 담보 그룹 정보 삭제 -->
+	<update id="deleteDamboGroupInfoList" parameterType="java.util.HashMap">
+		DELETE FROM T_FIN_DAMBO_GROUP_INFO
+		<where>
+			USER_ID = #{USER_ID}
+			<if test="deleteDamboGroupInfoList != null">
+				${deleteDamboGroupInfoList}
+			</if>
+			<if test="deleteDamboGroupInfoList == null || deleteDamboGroupInfoList == ''">
+				AND 1=2
+			</if>
+		</where>				
+	</update>		            
+
+	<!-- 기본 담보 그룹 정보 리스트 -->
+	<select id="getBaseDamboList" resultType="java.util.HashMap">
+		SELECT    FD.DAMBO_NUM
+		         ,FD.DAMBO_NAME
+		         ,FC.CATEGORY_NUM
+		         ,FC.CATEGORY_NAME
+		    FROM  T_FIN_CATEGORY 			FC
+		         ,T_FIN_DAMBO 				FD
+		         ,T_FIN_DAMBO_GROUP 		FDG
+		         ,T_FIN_DAMBO_GROUP_INFO 	FDGI
+		   WHERE     1 = 1
+		         AND FC.CATEGORY_NUM 	= FD.CATEGORY_NUM
+		         AND FD.DAMBO_NUM 		= FDG.DAMBO_NUM
+		         AND FDG.GROUP_NUM 		= FDGI.GROUP_NUM
+		         AND FDGI.USER_ID 		= #{USER_ID}
+		         AND FDGI.BASE_CHECK = 1
+		ORDER BY FC.CATEGORY_NUM, FD.DAMBO_NUM	
+	</select>
+
+	<!-- Chart 담보 그룹 정보 리스트 -->
+	<select id="getChartDamboList" resultType="java.util.HashMap">
+		SELECT    FD.DAMBO_NUM
+		         ,FD.DAMBO_NAME
+		         ,FC.CATEGORY_NUM
+		         ,FC.CATEGORY_NAME
+		         ,FDG.PIVOT_VALUE
+		    FROM  
+		    	  T_FIN_CATEGORY 			FC
+		         ,T_FIN_DAMBO 				FD
+		         ,T_FIN_DAMBO_GROUP 		FDG
+		         ,T_FIN_DAMBO_GROUP_INFO 	FDGI
+		   WHERE     1 = 1
+		         AND FC.CATEGORY_NUM 	= FD.CATEGORY_NUM
+		         AND FD.DAMBO_NUM 		= FDG.DAMBO_NUM
+		         AND FDG.GROUP_NUM 		= FDGI.GROUP_NUM
+		         AND FDGI.USER_ID 		= #{USER_ID}
+		         AND FDGI.CHART_CHECK 	= 1
+		ORDER BY FC.CATEGORY_NUM, FD.DAMBO_NUM	
+	</select>
+	
+	<!-- 보험 Import(복사) -->
+	<update id="copyInsurance" parameterType="java.util.HashMap">
+		
+		INSERT INTO T_FIN_INSURANCE 
+        (
+			 INSURANCE_NUM
+			,INSURANCE_TYPE
+			,COMPANY_NAME
+			,TITLE
+			,CONTRACTOR
+			,PAY_EACH_MONTH
+			,START_DATE
+			,GUARANTEE_TERM
+			,GUARANTEE_TERM_TYPE
+			,PAY_TERM
+			,PAY_TERM_TYPE
+			,COMMENT
+			,CREATE_DATE
+        ) 
+		SELECT
+			 #{newInsuranceNum}
+			,INSURANCE_TYPE
+			,COMPANY_NAME
+			,TITLE
+			,CONTRACTOR
+			,PAY_EACH_MONTH
+			,START_DATE
+			,GUARANTEE_TERM
+			,GUARANTEE_TERM_TYPE
+			,PAY_TERM
+			,PAY_TERM_TYPE
+			,COMMENT
+			,now()
+		FROM T_FIN_INSURANCE
+		WHERE INSURANCE_NUM = #{INSURANCE_NUM}
+				
+	</update>		            
+
+	<!-- 피보험자 Import(복사) -->
+	<update id="copyInsured" parameterType="java.util.HashMap">
+		
+		INSERT INTO T_FIN_INSURED 
+        (
+			 INSURANCE_NUM
+			,INSURED_NUM
+			,INSURED_NAME
+			,INSURED_BIRTH_YEAR
+        )
+        SELECT 
+			 #{newInsuranceNum}
+			,INSURED_NUM
+			,INSURED_NAME
+			,INSURED_BIRTH_YEAR
+		FROM T_FIN_INSURED
+		WHERE INSURANCE_NUM = #{INSURANCE_NUM}
+				
+	</update>		            
+	<!-- 보험 담보 Import(복사) -->
+	<update id="copyDambo" parameterType="java.util.HashMap">
+		
+		INSERT INTO T_FIN_INSURANCE_DAMBO 
+        (
+			 INSURANCE_NUM
+			,INSURED_NUM
+			,INSURANCE_DAMBO_NUM
+			,INSURANCE_MONEY
+			,DAMBO_NUM
+			,VALIDITY
+        ) 
+		SELECT
+			 #{newInsuranceNum}
+			,INSURED_NUM
+			,INSURANCE_DAMBO_NUM
+			,INSURANCE_MONEY
+			,DAMBO_NUM
+			,VALIDITY
+		FROM T_FIN_INSURANCE_DAMBO
+		WHERE INSURANCE_NUM = #{INSURANCE_NUM}
+				
+	</update>		            
+</mapper>

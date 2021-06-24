@@ -1,0 +1,12 @@
+/com/
+/context.properties
+/context_local.properties
+/context_server.properties
+/explan/
+/hibernate/
+/log4j.xml
+/message/
+/sample-data.xml
+/spring/
+/sql/
+/test/

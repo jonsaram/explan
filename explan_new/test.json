@@ -1,0 +1,30 @@
+{
+	"termList": [
+		{
+			"TERM": "100"
+		}
+	],
+	"allDamboList": [
+		{
+			"DAMBO_NUM": "1101",
+			"CATEGORY_NAME": "사망보험금",
+			"DAMBO_NAME": "일반사망(종신)"
+		}
+	],
+	"insuranceDamboMap": {
+	},
+	"baseInsuranceDamboMap": {
+		"1101": {
+			"100": {
+				"minInsuranceMoney": 8000,
+				"maxInsuranceMoney": 8000
+			},
+			"USER_ID": "*common*",
+			"DAMBO_NUM": "1101",
+			"DAMBO_NAME": "일반사망(종신)",
+			"CATEGORY_NAME": "사망보험금",
+			"CATEGORY_NUM": "11",
+			"CATEGORY_NAME_STR": "사망보험금"
+		}
+	}
+}

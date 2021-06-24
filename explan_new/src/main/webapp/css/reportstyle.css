@@ -1,0 +1,77 @@
+
+
+/* ----------------------------------------------------------------
+- Title : Style Sheets
+- Author : °íÁö¿µ
+- Date : 2016
+- Description : 
+---------------------------------------------------------------- */
+
+html, body{height:100%; }
+body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0; padding:0; font-size:13px; color:#444; font-family:"NanumGothic","Dotum","sans-serif","Arial"; }
+img,fieldset{border:none;}
+ul,ol,li,dl,dt,dd{list-style:none}
+em,address{font-style:normal}
+input[type=text]{letter-spacing:normal; word-spacing:normal; text-transform:none; text-indent:0px; text-shadow:none; text-align:start; height:30px; padding:0 0 0 3px; }
+textarea{letter-spacing:normal; word-spacing:normal; text-transform:none; text-indent:0px; text-shadow:none; text-align:start; padding:3px; line-height:18px}
+input[type=text], select, textarea {border:1px solid #d7d7d7; font-family:"Dotum"; font-size:12px; box-sizing:border-box; }
+select {padding:6px 3px; }
+.btn_area select {vertical-align:middle; }
+.btn_area label {margin-right:5px; }
+td a {text-decoration:none; color:#6197dd; }
+td a:hover {text-decoration:underline; }
+::-webkit-input-placeholder {color:#ccc; }
+::-moz-placeholder {color:#ccc; }
+:-ms-input-placeholder {color:#ccc; }
+input:-moz-placeholder {color:#ccc; }
+
+/*com*/
+.altl {text-align:left; }
+.altc {text-align:center; }
+.altr {text-align:right; }
+input.altr {text-align:right; padding-right:5px; }
+.fl_R {float:right; }
+.fl_L {float:left; }
+.fl_L_Set {display:inline-block; vertical-align:middle; }
+.fl_L_Set:after {content:""; display:block; clear:both; line-height:0; height:0; font-size:0; }
+.fl_L_Set li {float:left; margin-left:10px; }
+.spaceT5 {margin-top:5px; }
+.spaceT10 {margin-top:10px; }
+.spaceT20 {margin-top:20px; }
+.spaceT35 {margin-top:35px; }
+.spaceT60 {margin-top:60px; }
+
+/*layout*/
+.container {width:1080px; height:730px; overflow:hidden; border:1px solid #e5e5e5; }
+.main_img {width:1080px; height:520px; background:url("../img/report/main_img01.png") no-repeat; position:relative; }
+.main_img .main_ci {position:relative; left:31px; top:24px; }
+.main_img .main_ci p {margin-bottom:5px; font-size:23px; color:#fff; font-weight:700; font-family:"Arial","NanumGothic","Dotum","sans-serif"; }
+.main_img .main_ci span {font-size:12px; color:#b1cfe0; font-family:"NanumGothic","Arial","NanumGothic","Dotum","sans-serif"; }
+.main_img .main_tit {position:absolute; right:38px; bottom:35px; display:inline-block; background:#000; padding:0 20px; height:67px; line-height:67px; color:#fff; font-size:27px; font-weight:600; }
+
+.main_info {text-align:right; }
+.main_info dl {min-width:320px; display:inline-block; margin:5px 38px; }
+.main_info dt {height:60px; line-height:60px; margin-bottom:5px; border-bottom:3px solid #000; font-size:21px; color:#000; font-weight:600; letter-spacing:2px; }
+.main_info dt .main_info_name {font-size:27px; font-weight:700; letter-spacing:5px; }
+.main_info dd {text-align:left; font-size:20px; color:#000; height:40px; line-height:40px; font-weight:600; }
+.main_info dd span {display:inline-block; width:85px; height:30px; margin-right:5px; background-color:#000; line-height:30px; text-align:center; color:#fff; font-size:15px; font-weight:none; }
+
+.index_wrap {height:100%; position:relative; background:url("../img/report/index_bg_bottom.png") right 0 bottom 0 no-repeat; }
+.index_wrap .index_info {background:url("../img/report/index_bg_top.png") 0 0 no-repeat ; height:550px; padding:90px 80px 0 245px; }
+.index_wrap .index_info ol, .index_wrap .index_info ol li {display:block; }
+.index_wrap .index_info ol li {position:relative; background:url("../img/report/index_bg_dot.png") 0 50% repeat-x ; line-height:50px; text-align:left }
+.index_wrap .index_info ol li span {background-color:#fff; display:inline-block; line-height:25px; color:#333; font-size:19px; font-weight:600; }
+.index_wrap .index_info ol li .page_name {padding-right:20px; }
+.index_wrap .index_info ol li .page_no {position:absolute; top:50%; right:0; margin-top:-14px; padding-left:20px; text-align:right;  }
+.index_wrap .index_bottom {position:absolute; bottom:0; right:0; width:100%; text-align:center; }
+.index_wrap .index_bottom .index_ci {display:inline-block; margin:40px 0 20px; }
+
+.work_wrap {height:100%; position:relative; background: linear-gradient(to top,  rgba(230,230,230,1) 0%,rgba(255,255,255,0.03) 31%,rgba(0,0,0,0) 32%,rgba(0,0,0,0) 100%); }
+.work_wrap .work_tit {background:url("../img/report/work_h_bg.png") #072054 0 0 no-repeat; height:55px; line-height:55px; text-align:left}
+.work_wrap .work_tit span {font-size:22px; font-weight:600; color:#fff; margin-left:145px }
+.work_wrap .work_space {padding:35px 20px; }
+.work_wrap .work_foot {position:absolute; bottom:0; left:0; width:100%; height:40px; background-color:#dadada;text-align:left }
+.work_wrap .work_foot span {display:inline-block; padding-top:8px; color:#333; font-size:15px; font-weight:600; vertical-align:middle; }
+.work_wrap .work_foot .work_ci {padding-left:20px}
+.work_wrap .work_foot .work_tx {position:absolute; top:5px; right:20px; }
+.work_wrap .work_foot .work_pg {position:absolute; top:5px; left:500px; }

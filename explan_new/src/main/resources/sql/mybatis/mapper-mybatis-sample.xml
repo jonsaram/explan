@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Sample">
+
+	<cache />
+	
+	<!-- MVT 및 Model의 실제 Data (관련 Table => T_MDL_MODEL_SAVE, T_MDL_MODEL_SAVE_MVT_ITEM) -->
+	<select id="getSample" resultType="java.util.HashMap">
+		SELECT USER_ID, USER_NAME FROM T_COM_MEMBER
+	</select>
+	
+</mapper>

@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>	
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta charset="UTF-8">
+	<title>Page Gen</title>
+
+<!-- Resources -->
+
+<script type="text/javascript"	src="C:\explan_jsp\workspace\explan_new\src\main\webapp\js\jquery-1.9.0.min.js"            	></script>
+<script type="text/javascript"	src="C:\explan_jsp\workspace\explan_new\src\main\webapp\js\json2.js"						></script>
+<script type="text/javascript"	src="C:\explan_jsp\workspace\explan_new\src\main\webapp\js\jsrender.js"						></script>
+<script type="text/javascript"	src="C:\explan_jsp\workspace\explan_new\src\main\webapp\js\common/function_common.js"		></script>
+
+<!-- Chart code -->
+<script>
+	String.prototype.headerUpperCase = function() {
+		if(!isValid(this)) return this;
+		var str = this.toLowerCase();
+		return str.substring(0, 1).toUpperCase() + str.substring(1);
+	}
+
+	$(function() {
+		alert("AABBCC".headerUpperCase());
+		
+	});
+
+	String.prototype.headerUpperCase = function() {
+		if(!isValid(this)) return this;
+		return this.substring(0, 1).toUpperCase() + this.substring(1)
+	}
+
+	function go() {
+
+		var str = $("#parm").text();
+		
+		var inputArr = str.split("\n");
+		
+		var title				=  inputArr[0].trim();
+		var keyName				=  inputArr[1].trim();
+		var tableName			=  inputArr[2].trim();
+		var financyType			=  inputArr[3].trim();
+		var financyName			=  inputArr[4].trim();
+		var financySaveQueryId	=  inputArr[5].trim();
+		
+		var financyName1 = financyName.headerUpperCase();
+		var financyName2 = financyName.toUpperCase();
+		
+		var parm = {};
+		parm.title					= title					;
+		parm.keyName				= keyName				;
+		parm.tableName			    = tableName				;
+		parm.financyType			= financyType			;
+		parm.financyName			= financyName			;
+		parm.financyName1			= financyName1			;
+		parm.financyName2			= financyName2			;
+		parm.financySaveQueryId     = financySaveQueryId	;
+
+		gen(parm);
+	}
+	
+	function gen(parm) {
+		var renderHtml = $("#ui_template").render(parm);
+		renderHtml = renderHtml.replaceAll("!script>", "/script>");
+		$("#ui").text(renderHtml);
+
+		var renderHtml = $("#ajaxInterface_template").render(parm);
+		$("#ajaxInterface").text(renderHtml);
+		
+		var renderHtml = $("#service_template").render(parm);
+		$("#service").text(renderHtml);
+		
+		var renderHtml = $("#query_template").render(parm);
+		$("#query").text(renderHtml);
+		
+	}
+</script>
+<body>
+ex)<br/>
+부동산					<br/>
+IMMOVABLE_NUM			<br/>
+T_FIN_IMMOVABLE			<br/>
+M						<br/>
+immovable				<br/>
+Investment.saveImmovable<br/>
+<br/>
+<br/>
+
+<textarea id="parm" rows="10" cols="200"></textarea>
+<br/>
+<input type="button" value="go" onclick="go()"/>
+
+<br/><br/>
+UI CODE <br/>	
+<textarea id="ui" rows="10" cols="200"></textarea>
+<br/><br/>	
+
+
+AjaxRequestService <br/>	
+<textarea id="ajaxInterface" rows="5" cols="200"></textarea>
+<br/><br/>	
+
+
+Service <br/>	
+<textarea id="service" rows="5" cols="200"></textarea>
+<br/><br/>	
+
+
+Service <br/>	
+<textarea id="query" rows="5" cols="200"></textarea>
+<br/><br/>	
+
+
+<script type="text/x-jsrender" id="query_template">
+	<!-- {{:title}} 리스트 -->
+	<select id="get{{:financyName1}}List" resultType="java.util.HashMap">
+		SELECT 
+			 {{:keyName}}
+			,{{:financyName2}}_NAME
+			,FI.CREATE_DATE 
+		FROM 
+			 {{:tableName}} 			FI
+			,T_COM_FINANCY_PLAN_LINK 	FIP
+		WHERE			
+				FI.{{:keyName}}  	= FIP.FINANCY_NUM
+		 	AND FIP.PLAN_NUM 		= #{planNum}
+		 	AND DEL_YN 				= 'N'
+	</select>
+		
+	<!-- {{:title}} 저장 -->
+	<update id="save{{:financyName1}}" parameterType="java.util.HashMap">
+		INSERT INTO {{:tableName}} ( 
+						 {{:keyName}}  
+						,{{:financyName2}}_NAME 
+						,CREATE_DATE
+					)                     
+		VALUES		(
+						 #{{{:keyName}}  }
+						,#{{{:financyName2}}_NAME }
+						,NOW()
+					)
+		ON DUPLICATE KEY 
+		UPDATE 
+						 {{:financyName2}}_NAME  	 = #{{{:financyName2}}_NAME     } 
+	</update>
+</script>	
+
+
+<script type="text/x-jsrender" id="service_template">
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Map save{{:financyName1}}List(Map map , HttpServletRequest request ) throws Exception {
+		String keyName				= "{{:keyName}}";
+		String tableName			= "{{:tableName}}";
+		String financyType			= "{{:financyType}}";
+		String financyName			= "{{:financyName}}";
+		String financySaveQueryId	= "{{:financySaveQueryId}}";
+		
+		map.put("keyName"			, keyName					);
+		map.put("tableName"			, tableName					);
+		map.put("financyType"		, financyType				);
+		map.put("financyListName"	, financyName + "List"		);
+		map.put("financyDelListName", financyName + "DelList"	);
+		map.put("financySaveQueryId", financySaveQueryId		);
+		
+		commonService.saveFinancyList(map);
+		
+		resultInfo = makeResult(BaseService.REQUEST_SUCCESS, "", null);
+		
+		return resultInfo;
+	}
+</script>
+
+
+
+<script type="text/x-jsrender" id="ajaxInterface_template">
+		else if	("SAVE_{{:financyName2}}_LIST"		.equals(serviceName)) returnData = investmentService.save{{:financyName1}}List		(sendParam, request);
+</script>
+
+
+	
+<script type="text/x-jsrender" id="ui_template">
+<%@ page contentType='text/html;charset=utf-8' errorPage="/vocm/common/VCommonErrorVW.jsp" %>
+
+<%@include  file="/include/header.jsp" %>
+
+<script>
+	$(function() {
+
+	});
+	
+	var c{{:financyName1}}Manage = {
+		 load : function() {
+			// {{:financyName1}} List 읽어오기
+			var parm = {
+				 "sqlId" 	: "Investment.get{{:financyName1}}List"	
+				,"planNum" 	: _SESSION["PLAN_NUM"]
+			}
+
+			var gridInfo = requestService("GET_COMMON", parm);
+
+			var jsonData = gridInfo.data;
+			
+	  		var orderList = "[!CB],[!RN],[!HD]{{:keyName}},{{:financyName2}}_NAME";
+	  		
+			var itemType = {
+				 "orderList"	: orderList
+//				,"comboList"	: ["COLUMN_NAME", ...]
+//				,"numberList" 	: ["COLUMN_NAME", ...]
+//				,"floatList" 	: ["COLUMN_NAME", ...]
+			};
+			
+			var configInfo 		= explanGrid.makeConfigInfo(itemType);
+	  		var columnConfig 	= configInfo.columnConfig;
+	  		var validatorList 	= configInfo.validatorList;
+			
+	  		// 추가 Column 속성 처리
+//	  		columnConfig["COLUMN_NAME"]["ATTR"]	= "xxx";
+	  		
+	  		// Header Tooltip
+// 	  		var headerToolTipMap = {
+//	  			 "COLUMN_NAME" 	: "Header Tooltip 내용"
+//	  		}
+			
+	  		// 추가 검증 처리
+//	  		validatorList["COLUMN_NAME"] = function(cellData, gridId, rowId, colId) {
+//	  			return false;
+//	  		}
+ 
+	  		var gridParm = {
+				 "targetDivId"	: "${pageId}_gridbox"
+				,"orderList" 	: orderList
+				,"gridData"		: jsonData
+				,"cellConfig"	: {
+					"defaultConfig" 	: { "align"  : "center", "width" :"120", "colType":"edtxt"}
+					,"columnConfig" 	: columnConfig
+				}
+				,"validatorList": validatorList
+				,"dataConfig"	: {"useRownum"		: true}
+				,"useAutoResize": true
+				,"useAutoHeight": { "margin" : 380 }
+				,"useBlockCopy"	: true
+				,"useAdjust"	: true
+
+				// 추가 옵션
+				//// Header Tooltip
+//				,"headerToolTipMap"	: headerToolTipMap
+
+				//// Header 명을 다르게 쓸경우
+//				,"wordList"			: {"COLUMN_NAME" : "xxx", ...}
+				
+				//// Cell Change Event가 있는경우
+//				,"callback"		: function (mygrid) {
+//			  		//explanGrid.attachEvent			("${pageId}_gridbox", "onChange" , c{{:financyName1}}Manage.onChangeProcess);
+//				}
+			}
+			var mygrid = explanGrid.makeGrid(gridParm);
+		}
+		,addRow : function() {
+			if(!isValid(_SESSION["PLAN_NUM"])) {
+				alert('플랜을 선택 하세요.');
+				return;
+			}
+			explanGrid.addRow("${pageId}_gridbox");
+		}
+		,delRow	: function() {
+			rowIdList = explanGrid.getCheckedRowId("${pageId}_gridbox", "[!CB]");
+			$.each(rowIdList, function() {
+				explanGrid.deleteRowById("${pageId}_gridbox", this);
+			});
+		}
+		,goSave	: function() {
+			if(!isValid(_SESSION["PLAN_NUM"])) {
+				alert('플랜을 선택 하세요.');
+				return;
+			}
+
+			var isEmpty = explanGrid.isEmpty("${pageId}_gridbox");
+	
+			// 삭제 {{:financyName1}} Number List
+			var {{:financyName}}DelList = explanGrid.getDeletedCols("${pageId}_gridbox", "{{:keyName}}");
+	
+			if({{:financyName}}DelList.length > 0) isEmpty = false;
+
+			if(isEmpty) {
+				alert("저장 할 내용이 없습니다.");
+				return;
+			}
+			var changeCheck = explanGrid.isChanged("${pageId}_gridbox");
+			if(!changeCheck) {
+				alert("변경 내용이 없습니다.");
+				return;
+			}
+			
+			var jsonData 	= explanGrid.getGridToJson("${pageId}_gridbox", null, "C");
+
+			var resultMap 	= explanGrid.validCheckAllGrid("${pageId}_gridbox");
+			
+			if(!resultMap.valid) {
+				alert(resultMap.getMsg());
+				return;
+			}
+
+			// 삭제 Plan Number List
+			var {{:financyName}}DelList = explanGrid.getDeletedCols("${pageId}_gridbox", "{{:keyName}}");
+			
+			var sendParm = {
+				 "planNum"			: _SESSION["PLAN_NUM"]
+				,"{{:financyName}}DelList"	: {{:financyName}}DelList
+				,"{{:financyName}}List" 	: jsonData
+			}
+			
+			var gridInfo = requestService("SAVE_{{:financyName2}}_LIST", sendParm);
+
+			if(gridInfo.state == "S"){
+				alert('저장 되었습니다.');
+				
+				this.load();
+				
+				explanGrid.clearChanged("${pageId}_gridbox");
+				
+			} else 	{
+				alert(gridInfo.msg);
+			}
+		},
+		// Grid Cell이 변경 되었을때 처리
+//		,onChangeProcess : function(gridId, rowId, colId, val, ctype, rowData) {
+//			if(ctype == "CC") {
+//				if(colId == "COLUMN_NAME") {
+//					//explanGrid.pauseEvent	 (gridId	, "onChange");
+//					//explanGrid.releaseEvent(gridId	, "onChange");
+//				}
+//			}
+//		}
+	}
+<!script>
+<!-- UI 작성 부분 -->
+
+<h3>{{:title}} 관리</h3>
+
+<%@include  file="/include/component/customerInfoComponent.jsp" %>
+<script>
+	// Component 초기화
+	_SVC_COM.initComponent("customerInfoComponent", {}, function(type) {
+		if(type == "reload") c{{:financyName1}}Manage.load();
+	});
+<!script>
+
+<br/>
+<div>
+	<div class="list_wrap" style="min-width:800px">
+		<div class="list_head">
+			<div class="button" id="btnEdit">
+				<span class="btn_list"><a href="javascript:c{{:financyName1}}Manage.addRow();">{{:title}}추가</a></span>
+				<span class="btn_list"><a href="javascript:c{{:financyName1}}Manage.delRow();">{{:title}}삭제</a></span>
+				<span class="btn_list"><a href="javascript:c{{:financyName1}}Manage.goSave();">저장</a></span>
+				<span class="btn_list"><a href="javascript:c{{:financyName1}}Manage.load()  ;">새로고침</a></span>
+			</div>
+		</div>
+		<div style="width:100%;height:400px">
+			<div id="${pageId}_gridbox" style="width:100%;height:100%;"></div>
+		</div>
+</div>
+
+<div class="page_button"><span class="btn_page"><a href="javascript:c{{:financyName1}}Manage.goSave()">저장</a></span></div>
+
+<%@include  file="/include/footer.jsp" %>
+
+</script>
+
+</body>
+</html>

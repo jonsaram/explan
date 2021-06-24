@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Customer">
+
+	<!-- 고객 리스트 -->
+	<select id="getCustomerList" resultType="java.util.HashMap">
+		SELECT 
+		   CUSTOMER_NUM 
+		  ,CUSTOMER_NAME 
+		  ,BIRTHDAY 
+		  ,PHONE_NUM 
+		  ,EMAIL 
+		  ,DATE_FORMAT(CREATE_DATE, '%Y-%m-%d') AS CREATE_DATE
+		  ,USER_ID 
+		FROM V_COM_CUSTOMER
+		WHERE 	1=1
+			AND USER_ID = #{USER_ID}
+	</select>
+	<!-- 고객 저장 -->
+	<select id="saveCustomer" parameterType="java.util.HashMap">
+		INSERT INTO T_COM_CUSTOMER 
+		            (
+		             CUSTOMER_NUM, 
+		             CUSTOMER_NAME, 
+		             BIRTHDAY, 
+		             USER_ID, 
+		             PHONE_NUM, 
+		             EMAIL, 
+		             CREATE_DATE
+		            ) 
+		VALUES      (
+					 #{CUSTOMER_NUM}, 
+		             #{CUSTOMER_NAME}, 
+		             #{BIRTHDAY}, 
+		             #{USER_ID}, 
+		             #{PHONE_NUM}, 
+		             #{EMAIL}, 
+		             now()
+		            )  
+		ON DUPLICATE KEY 
+		UPDATE CUSTOMER_NAME    = #{CUSTOMER_NAME},     
+		       BIRTHDAY         = #{BIRTHDAY},          
+		       PHONE_NUM        = #{PHONE_NUM},         
+		       EMAIL            = #{EMAIL}
+	</select>
+	<delete id="deleteCustomer" parameterType="java.lang.String">
+		UPDATE T_COM_CUSTOMER SET DEL_YN = 'Y', DEL_DATE = now() WHERE CUSTOMER_NUM = #{delCustomerNum}
+	</delete>
+	
+</mapper>

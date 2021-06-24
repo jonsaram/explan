@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<anyframe>
+    <pjthome>C:\explan_jsp\workspace\explan\.</pjthome>
+    <pjtname>explan</pjtname>
+    <package>explan</package>
+    <ant>
+        <anyframe-home>C:\explan_jsp\anyframe-core-5.5.1</anyframe-home>
+        <context-root>explan</context-root>
+        <offline>false</offline>
+    </ant>
+    <path>
+        <template>C:\explan_jsp\workspace\explan\.settings\anyframe\templates</template>
+        <jdbcdrivers>C:\explan_jsp\workspace\explan\.settings\anyframe</jdbcdrivers>
+        <databases>C:\explan_jsp\workspace\explan\.settings\anyframe</databases>
+    </path>
+</anyframe>

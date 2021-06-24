@@ -1,0 +1,59 @@
+﻿@charset "utf-8";
+html,body{height:100%;background:#fff}
+body,p,h1,h2,h3,h4,h5,h6,ul,ol,li,dl,dt,dd,table,th,td,form,fieldset,legend,input,textarea,button,select{margin:0;padding:0}
+article,aside,details,figcaption,figure,footer,header,hgroup,nav,section{display:block}
+body{font-family:Tahoma,'돋움','dotum';font-size:12px;color:#333}
+input,textarea,select,button,table{font-size:1em;color:#333}
+input,textarea,button{font-family:Tahoma,'돋움','dotum'}
+td div{line-height:normal}
+img,fieldset{border:none}
+ul,ol{list-style:none}
+em,address{font-style:normal}
+a{color:#3064d4;text-decoration:none;background:transparent}
+img{vertical-align:top}
+label,input{vertical-align:middle}
+td input, td img{vertical-align:middle}
+select{height:19px;padding:1px;vertical-align:top}
+textarea{padding:2px}
+
+#wrap{width:100%;height:100%}
+
+/* footer */
+footer{position:fixed;width:100%;height:23px;bottom:0;font-family:Tahoma;font-size:.95em;color:#999;background:#f8f8f8;border-top:1px solid #c7c7c7}
+footer span{display:inline-block;text-align:right}
+footer span.link{color:#ccc;margin-left:5px}
+footer span.link a{margin:0 3px;color:#000}
+footer span.link a.red,footer span.link a:hover.red{color:#990000}
+
+/* gnb */
+#gnb{position:relative;top:0;left:0;width:100%;/*min-width:1244px;*/height:74px;z-index:100;background:url(../img/common/bg_head.gif) repeat-x 0 0}
+#gnb h1{position:absolute;top:10px;left:15px;width:96px;height:18px;background:url(../img/common/logo_modelo1.png) no-repeat 0 0;font-size:0;line-height:0;overflow:hidden}
+#gnb .dropdown{position:absolute;top:38px;left:15px}
+
+/* function */
+.function{position:absolute;top:13px;right:15px;font-size:11px;color:#e3e3e3}
+.function a,.function span{padding:0 7px;color:#333}
+.function a:hover,.function a:active,.function a:focus{color:#3064d4}
+.function .confidential{height:12px;padding:2px 5px;margin-left:5px;color:#e60012;font-weight:bold;border:1px solid #e60012}
+
+/* log */
+.logInfo{position:absolute;top:50px;right:15px;margin-left:50px;color:#fff}
+.logInfo .line{margin:0 5px;color:#7995d2}
+
+/* dropdown */
+.dropdown{height:46px;z-index:100}
+.dropdown li{float:left;margin-right:10px}
+.dropdown li a{display:block;height:15px;padding:11px 10px 10px 7px;margin-left:3px;font-size:12px;font-weight:bold;color:#fff}
+.dropdown li.ing{font-weight:bold;background:url(../img/common/bg_on.gif) repeat-x 0 0}
+.dropdown li:hover{background:url(../img/common/bg_hover.gif) top left}
+.dropdown li:hover a{background:url(../img/common/bg_hover.gif) top right;color:#26447b;margin-left:3px}
+.dropdown ul li,.dropdown ul li a,.dropdown ul li:hover{background:none!important}
+.dropdown ul li a{font-weight:normal;padding:4px 0}
+.dropdown ul li:hover a{padding:4px 0;color:#3064d4}
+
+.vertical ul li:hover{z-index:599;cursor:default}
+.vertical ul ul{display:none;position:absolute;top:35px;z-index:598;min-width:120px;padding:5px 20px 10px 7px;margin-left:-2px;border:2px solid #3a58a9;border-top:none;background:#fff}
+.vertical ul ul li{float:none;position:relative;white-space:nowrap}
+.vertical ul li:hover > ul{display:block}
+
+.boldline{border-right:2px solid #9bbad7}

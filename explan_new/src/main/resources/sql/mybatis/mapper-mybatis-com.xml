@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="Common">
+
+	<!-- MVT 및 Model의 실제 Data (관련 Table => T_MDL_MODEL_SAVE, T_MDL_MODEL_SAVE_MVT_ITEM) -->
+	<select id="getPageInfoList" resultType="java.util.HashMap">
+		SELECT PAGE_ID, URL FROM T_COM_PAGE_INFO
+	</select>
+	<select id="getDDList" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+		SELECT
+		     COMMON_TCD 
+			,COMMON_CODE 
+			,COMMON_NAME
+			,SUB_ID
+			,ATTB1 
+			,ATTB2
+			,ATTB3 
+		FROM T_COM_COMMON_CODE
+		WHERE 	1=1
+				${COMMON_TCD}
+		ORDER BY COMMON_TCD, ORDER_SEQ
+	</select>
+	<select id="getPlanList" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+		SELECT  PLAN_NUM
+		       ,VERSION_SEQ
+		       ,CUSTOMER_NUM
+		       ,PLAN_NAME
+		       ,DATE_FORMAT(CREATE_DATE, '%Y-%m-%d') AS CREATE_DATE
+		       ,START_DATE 
+		       ,PLAN_TYPE
+		       ,BASE_PLAN_NUM
+		       ,BASE_PLAN_NAME
+		FROM   V_COM_PLAN P1
+		WHERE  	1 = 1
+			AND CUSTOMER_NUM = #{CUSTOMER_NUM}
+	</select>
+	
+	<select id="getPlanInfo" parameterType="java.util.HashMap" resultType="java.util.LinkedHashMap">
+		SELECT PLAN_NUM, 
+		       VERSION_SEQ, 
+		       CUSTOMER_NUM, 
+		       PLAN_NAME, 
+		       DATE_FORMAT(CREATE_DATE, '%Y-%m-%d') AS CREATE_DATE, 
+		       START_DATE 
+		FROM   V_COM_PLAN
+		WHERE  	1 = 1
+			AND PLAN_NUM = #{planNum}
+	</select>
+	
+	<update id="savePlanList" parameterType="java.util.HashMap">
+		INSERT INTO T_COM_PLAN 
+		            (
+		            	 PLAN_NUM	
+		             	,VERSION_SEQ	
+		             	,CUSTOMER_NUM
+		             	,PLAN_NAME	
+		             	,CREATE_DATE	
+		             	,START_DATE
+		             	,PLAN_TYPE
+		             	,BASE_PLAN_NUM
+		            ) 
+		VALUES      (
+						 #{PLAN_NUM			}		
+		             	,#{VERSION_SEQ		}	
+		             	,#{CUSTOMER_NUM		}	
+		             	,#{PLAN_NAME		}	
+		             	,now()			
+		             	,#{START_DATE		}
+		             	,#{PLAN_TYPE     	}
+		             	,#{BASE_PLAN_NUM 	}
+		            )  
+		ON DUPLICATE KEY 
+		UPDATE  PLAN_NAME		= #{PLAN_NAME		}     
+		       ,PLAN_TYPE		= #{PLAN_TYPE		}     
+		       ,BASE_PLAN_NUM	= #{BASE_PLAN_NUM	}     
+		       ,START_DATE		= #{START_DATE		}     	
+	</update>
+	<delete id="deletePlan" parameterType="java.lang.String">
+		UPDATE T_COM_PLAN 
+			SET  DEL_YN 	= 'Y'
+				,DEL_DATE 	= now()
+		WHERE PLAN_NUM = #{delPlanNum}
+	</delete>
+	
+	<update id="linkInvestmentToPlan" parameterType="java.util.HashMap">
+		INSERT INTO T_COM_FINANCY_PLAN_LINK 
+		            (
+		            	 PLAN_NUM	 
+		             	,FINANCY_NUM	 
+		             	,STATE		 
+		             	,FINANCY_TYPE 
+		             	,CREATE_DATE
+		             	
+		            ) 
+		VALUES      (
+						 #{PLAN_NUM}		 
+		             	,#{FINANCY_NUM}	 
+		             	,'' 
+		             	,#{FINANCY_TYPE}
+		             	,now() 
+		            )
+		ON DUPLICATE KEY 
+		UPDATE 	MOD_DATE = now()
+	</update>
+
+	<select id="getMenuList" resultType="java.util.LinkedHashMap">
+		SELECT 
+			 CMM.MAIN_MENU_ID
+		    ,CMM.MAIN_MENU_NAME
+		    ,CSM.SUB_MENU_ID
+		    ,CSM.SUB_MENU_NAME
+		    ,CPI.PAGE_ID
+		    ,CPI.URL
+		FROM 
+			 T_COM_MAIN_MENU CMM
+			,T_COM_SUB_MENU CSM
+			,T_COM_PAGE_INFO CPI
+		   WHERE 
+		   		CMM.MAIN_MENU_ID 	= CSM.MAIN_MENU_ID 
+		   	AND CSM.PAGE_ID 		= CPI.PAGE_ID
+		ORDER BY 
+			 CMM.SORT_ORDER
+			,CSM.SORT_ORDER
+	</select> 
+	
+	
+	<!-- 공통 삭제 -->
+	<delete id="deleteCommonTable" parameterType="java.lang.String">
+		UPDATE ${tableName} SET DEL_YN = 'Y', DEL_DATE = now()
+		<where>
+			<if test="deleteNumListStr == null">
+				AND 1 = 2
+			</if>	
+			<if test="deleteNumListStr != null">
+				${deleteNumListStr}
+			</if>					
+		</where>				
+	</delete>
+	
+	
+</mapper>
