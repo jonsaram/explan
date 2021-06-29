@@ -8,7 +8,7 @@
 	_SVC_COM.loadJsFile("/explan/js/class/C_FINANCY_ANALYSIS.js");
 	_SVC_COM.loadJsFile("/explan/amcharts/amcharts.js" 			);
 	_SVC_COM.loadJsFile("/explan/amcharts/serial.js" 			);
-	_SVC_COM.loadJsFile("/explan/amcharts/pie.js" 						);
+	_SVC_COM.loadJsFile("/explan/amcharts/pie.js" 				);
 	_SVC_COM.loadJsFile("/explan/amcharts/themes/light.js" 		);
 
 	$(function() {
@@ -32,7 +32,7 @@
 			var cFinancyAnalysis = new C_FINANCY_ANALYSIS({planNum : sendParm.planNum});
 			
 			var investmentGroupByInfo = cFinancyAnalysis.getInvestmentGroupByInfo();
-			
+
 			var renderHtml 		= $("#${comId}Ivst_template").render(investmentGroupByInfo);
 			
 			$("#${comId}Ivst").html(renderHtml);
@@ -113,11 +113,11 @@
 			}
 			var chartConfig = fn_copyFullObject(baseChartConfig);
 			var val = {};
-			val["금융자산"	] = fn_fix(cFinancyAnalysis.investmentGroupByInfo.resultTotal	, 0);
-			val["부동산자산"] = fn_fix(cFinancyAnalysis.immovableInfo.resultTotal			, 0);
-			val["총자산"	] = fn_fix(val["금융자산"]) + Number(val["부동산자산"]			, 0); 	
-			val["총부채"	] = fn_fix(cFinancyAnalysis.loanInfo.principalTotal				, 0);
-			val["순자산"	] = val["총자산"] - val["총부채"]						 	
+			val["금융자산"	] = fn_fix(Number(cFinancyAnalysis.investmentGroupByInfo.resultTotal)	, 0);
+			val["부동산자산"] = fn_fix(Number(cFinancyAnalysis.immovableInfo.resultTotal		)	, 0);
+			val["총자산"	] = fn_fix(Number(val["금융자산"]) + Number(val["부동산자산"]		)	, 0); 	
+			val["총부채"	] = fn_fix(Number(cFinancyAnalysis.loanInfo.principalTotal			)	, 0);
+			val["순자산"	] = Number(val["총자산"]) - Number(val["총부채"])						 	
 			
 			chartConfig.dataProvider = [
 		    	 {

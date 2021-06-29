@@ -304,3 +304,25 @@ div .page { page-break-after: always; }
 } 
 .td_total {height:28px;background:#F0F0FF;color:#09237a; padding:0 0 0 10px;font-weight:bold}
 .td_total2 {height:28px;background:#FFFFFF font-size:12px;color: #AF0b0d; padding:0 0 0 14px; font-weight:bold;}
+
+
+
+.flex_column {
+	display:flex;
+	flex-direction:column;
+}
+.flex_row {
+	display:flex;
+	flex-direction:row;
+}
+.flex_item {
+	flex:1 1 auto
+}
+.flex_no {
+	flex:none;
+}
+.w10 { width:10px}
+.w20 { width:20px}
+.h10 { height:10px}
+.h20 { height:20px}
+.bd  {font-weight:bold;}

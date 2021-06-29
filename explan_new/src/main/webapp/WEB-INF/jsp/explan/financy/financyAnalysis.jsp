@@ -15,7 +15,10 @@
 			 "planNum" 	: _SESSION["PLAN_NUM"]
 			,"planDate" : _SESSION["PLAN_DATE"]
 		}
-
+		if(isEmpty(parm.planNum)) {
+			alert('플랜을 선택하세요');
+			history.back();
+		}
 		// 자산 기본 분석 Component 초기화
 		_SVC_COM.initComponent("financyAnalysisComponent", parm,function() {});
 

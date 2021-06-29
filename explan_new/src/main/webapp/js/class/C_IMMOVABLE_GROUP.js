@@ -53,8 +53,8 @@ C_IMMOVABLE_GROUP = function(immovableList, targetDate) {
 			 totalListGroupByType 	: this.totalListGroupByType
 			,sourceTotal			: this.sourceTotal		
 			,resultTotal			: this.resultTotal			
-			,sourceTotalStr			: makeMoneyStr(Math.round(this.sourceTotal	))
-			,resultTotalStr			: makeMoneyStr(Math.round(this.resultTotal	))
+			,sourceTotalStr			: makeMoneyStr(Math.round(Number(this.sourceTotal)	))
+			,resultTotalStr			: makeMoneyStr(Math.round(Number(this.resultTotal)	))
 		}
 		return returnMap;
 	}

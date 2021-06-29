@@ -40,11 +40,11 @@
 
 <div class="layer_pop_wrap" id="${popupId}">
 	<div class="layer_pop" style="width:500px" id="${popupId}_layer_pop">
-		<div class="tit_layer">Weight Update</div>
+		<div class="tit_layer"></div>
 		<div class="contents" id="${popupId}_contents">
 			<div class="list_wrap">
 				<div class="grid_wrap">
-					<!-- grid 삽입 -->
+					<!-- grid 삽입 -- >
 					<table class="list_table">
 					<colgroup>
 					<col width="33%">

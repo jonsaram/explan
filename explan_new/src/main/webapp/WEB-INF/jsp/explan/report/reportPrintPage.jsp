@@ -7,7 +7,6 @@
 	각 Component의 HTML결과물을 기준으로 보고서를 구성한다.
 -->
 
-
 <script>
 	$(function() {
 		
@@ -32,6 +31,8 @@
 			,"planDate" : _SESSION["PLAN_DATE"]
 		}
 		
+ 		// 재부분석요약 Component 초기화
+		_SVC_COM.initComponent("financySummaryComponent", parm,function() {});
 		// 재무상태표 Component 초기화
 		_SVC_COM.initComponent("financyAnalysisComponent", parm,function() {});
  		// 현금흐름표 Component 초기화
@@ -48,6 +49,10 @@
 
 		var targetReportMap = pageParm.targetReportMap;
 		
+		if(targetReportMap["financySummaryComponent"			] == "Y") {
+	 		// 재부분석요약 보고서 추가
+			componentList.push("financySummaryComponent");
+		}
 		if(targetReportMap["financyAnalysisComponent"			] == "Y") {
 			// 재무상태표 보고서 추가
 			componentList.push("financyAnalysisComponent");
@@ -398,6 +403,10 @@
 
 <!-- UI 작성 부분 -->
 
+<!-- 재무상태요약 Component  -->
+<%@include file="/include/component/financy/financySummaryComponent.jsp"%>
+<!----------------------------->
+
 <!-- 재무상태표 Component  -->
 <%@include file="/include/component/financy/financyAnalysisComponent.jsp"%>
 <!----------------------------->
@@ -405,7 +414,6 @@
 <!-- 현금흐름표 Component  -->
 <%@include file="/include/component/financy/cashflowAnalysisComponent.jsp"%>
 <!----------------------------->
-
 
 <!-- 보험 기본 분석 Component  -->
 <%@include  file="/include/component/insurance/insuranceBaseAnalysisComponent.jsp" %>

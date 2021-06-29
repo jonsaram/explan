@@ -80,7 +80,7 @@ var C_INVESTMENT_GROUP = function(investmentList, targetDate) {
 			// 정기 투자금 합계
 			regularTotal += Number(this.regularMoney);
 		});
-		
+
 		this.sourceTotal 	= sourceTotal;
 		this.resultTotal 	= resultTotal;
 		this.regularTotal 	= regularTotal;
@@ -110,6 +110,7 @@ var C_INVESTMENT_GROUP = function(investmentList, targetDate) {
 		var sourceTotal 	= addComma(Math.round(this.sourceTotal 	/ cv1) / cv2);
 		var resultTotal 	= addComma(Math.round(this.resultTotal 	/ cv1) / cv2);
 		var regularTotal 	= addComma(Math.round(this.regularTotal	/ cv1) / cv2);
+		
 		var returnObj = {
 			 groupList 		: slgbtl
 			,sourceTotal 	: sourceTotal

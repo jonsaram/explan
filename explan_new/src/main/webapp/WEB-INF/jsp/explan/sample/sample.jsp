@@ -1,85 +1,46 @@
-<%@ page language="java" errorPage="/explan/common/error.jsp" pageEncoding="UTF-8" contentType="text/html;charset=utf-8" %>
+<%@ page contentType='text/html;charset=utf-8'
+	errorPage="/vocm/common/VCommonErrorVW.jsp"%>
 
-<%@include  file="/include/headerBaseSet.jsp" %>
+<%@include file="/include/header.jsp"%>
 
+<script>
+	$(function() {
 
+	});
+
+	function loadComponent() {
+
+		// Investment List 읽어오기
+		var parm = {
+			 "planNum" 	: _SESSION["PLAN_NUM"]
+			,"planDate" : _SESSION["PLAN_DATE"]
+		}
+
+		// 자산 기본 분석 Component 초기화
+		_SVC_COM.initComponent("financySummaryComponent", parm,function() {});
+
+	}
+</script>
 <!-- UI 작성 부분 -->
-<!-- 보험 기본 분석 Component  -->
 
+<h3>재무상태표</h3>
 
+<%@include  file="/include/component/customerInfoComponent.jsp" %>
 
+<script>
+	$(function() {
+		// Component 초기화
+		_SVC_COM.initComponent("customerInfoComponent", {}, function(type) {
+			if(type == "reload") loadComponent();
+		});
+	
+	});
+</script>
 
-
-
-
-
-
-<!----------------------------->
-
-<!-- 보험 담보 분석 Component  -->
-
-
-
-
-
-
-
-<div class="layer_pop_wrap" id="popupIdDgmp">
-	<div class="layer_pop" style="width:1200px">
-		<div class="tit_layer">담보 그룹 관리</div>
-		<div class="contents">
-			<div class="table_wrap" style="margin-bottom:10px">
-				<table class="list_table">
-					<colgroup>
-						<col width="200">
-						<col width="*">
-					</colgroup>
-					<tbody>
-						<tr>
-							<th>담보 그룹 선택</th>
-							<td>담보 그룹 선택</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<div class="div_wrap">
-				<div class="div_left">
-					<h4>담보 선택</h4>
-					<div class="list_wrap">
-						<div class="list_head">
-							<div class="button" id="btnEdit">
-								<span class="btn_list"><a href="javascript:_G_FN['popupIdDgmp'].damboGroupInfoManagePopup();">담보그룹 정보관리</a></span>
-							</div>
-						</div>
-						<div style="width:100%;height:400px">
-							<div id="popupIdDgmp_gridboxDambo" style="width:100%;height:100%"></div>
-						</div>
-					</div>
-				</div>
-				<div class="div_right">
-					<h4>담보 선택 요약</h4>
-					<div class="list_wrap">
-						<div class="list_head">
-							<div class="button" id="btnEdit">
-								<span class="btn_list"><a href="javascript:_G_FN['popupIdDgmp'].deleteDamboSummaryRow();">선택담보제외</a></span>
-							</div>
-						</div>
-						<div style="width:100%;height:400px">
-							<div id="popupIdDgmp_gridboxDamboSummary" style="width:100%;height:100%"></div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="pop_button">
-			<span class="btn_page"><a href="#Close" onClick="_G_FN['popupIdDgmp'].goSave()">저장</a></span>
-			<span class="btn_page"><a href="#Close" onClick="_G_FN['popupIdDgmp'].close()">닫기</a></span>
-		</div>
-	</div>
+<div>
+	<!-- 자산 기본 분석 Component  -->
+	<%@include file="/include/component/financy/financySummaryComponent.jsp"%>
+	<!----------------------------->
 </div>
 
-<!----------------------------->
-
-
-
-<%@include  file="/include/footerBaseSet.jsp" %>
+<%@include file="/include/footer.jsp"%>

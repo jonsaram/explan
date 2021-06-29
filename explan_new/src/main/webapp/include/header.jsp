@@ -58,7 +58,6 @@
 		if(PAGE_ID == "") PAGE_ID = "CUSTOMER_LIST";
 		// 공통 설정
 		var resultInfo = requestService("GET_MENU_LIST", {}, "R");
-		
 		var mainMenuMap 		= {};
 		var currentMainMenu 	= "";
 		$.each(resultInfo.data, function() {

@@ -174,16 +174,19 @@
 	// 한화 억단위 넘어갔을때 말만들기 x억 xx만원 (만원단위)
 	function makeMoneyStr(source)
 	{
-		if(!isNumber(source)) return 0;
+		var sorc = (source + "").replaceAll(",", "");
 		
-		var pv = (source + "").split(".")[1];
+		
+		if(!isNumber(sorc)) return 0;
+		
+		var pv = (sorc + "").split(".")[1];
 		
 		if(pv == undefined) 	pv = "";
 		else					pv = "." + pv;
 		
 		var negaitive 	= false;
 		
-		var target = Math.floor(Number(source)); 
+		var target = Math.floor(Number(sorc)); 
 		
 		if(target < 0) {
 			target 		= target * -1;
@@ -734,6 +737,9 @@
 	{
 		if(str == null || str == undefined || (str + "").trim().length == 0) return false;
 		return true;
+	}
+	function isEmpty(str) {
+		return !isValid(str);
 	}
 	// 배타적 유효성 Check
 	function isExclusiveValid(val1, val2) {
@@ -1590,3 +1596,9 @@
 		return listArray;
 	}
 	
+	// 20210621
+	var tFn = Number;
+	var Number = function(num) {
+		var x = (num + "").replace(",", "");
+		return tFn(x);
+	}

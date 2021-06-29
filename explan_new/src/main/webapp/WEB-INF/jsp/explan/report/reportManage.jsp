@@ -131,7 +131,7 @@
 					</thead>
 					<tbody>
 						<tr>
-							<td class="tc"><input type="checkbox" id="#"/></td>
+							<td class="tc"><input type="checkbox" id="financySummaryComponent" isTarget/></td>
 							<td >재무 상태 요약</td>
 							<td class="tc"><input type="checkbox" id="insuranceBaseAnalysisComponent" isTarget/></td>
 							<td >보험 기본 분석</td>
