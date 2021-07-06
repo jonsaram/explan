@@ -1,30 +1,58 @@
 {
-	"termList": [
+	"groupList": [
 		{
-			"TERM": "100"
+			"investmentType": "적금",
+			"source": "480",
+			"total": "678",
+			"investmentTypeName": "적금",
+			"sourceStr": "480만원",
+			"totalStr": "678만원"
+		},
+		{
+			"investmentType": "예금",
+			"source": "50",
+			"total": "81.2",
+			"investmentTypeName": "예금",
+			"sourceStr": "50만원",
+			"totalStr": "81.2만원"
+		},
+		{
+			"investmentType": "펀드",
+			"source": "250",
+			"total": "343.7",
+			"investmentTypeName": "펀드",
+			"sourceStr": "250만원",
+			"totalStr": "343.7만원"
+		},
+		{
+			"investmentType": "주식",
+			"source": "250",
+			"total": "354.1",
+			"investmentTypeName": "주식",
+			"sourceStr": "250만원",
+			"totalStr": "354.1만원"
+		},
+		{
+			"investmentType": "보험",
+			"source": "610",
+			"total": "596.6",
+			"investmentTypeName": "보험",
+			"sourceStr": "610만원",
+			"totalStr": "596.6만원"
+		},
+		{
+			"investmentType": "기타",
+			"source": "610",
+			"total": "657.3",
+			"investmentTypeName": "기타",
+			"sourceStr": "610만원",
+			"totalStr": "657.3만원"
 		}
 	],
-	"allDamboList": [
-		{
-			"DAMBO_NUM": "1101",
-			"CATEGORY_NAME": "사망보험금",
-			"DAMBO_NAME": "일반사망(종신)"
-		}
-	],
-	"insuranceDamboMap": {
-	},
-	"baseInsuranceDamboMap": {
-		"1101": {
-			"100": {
-				"minInsuranceMoney": 8000,
-				"maxInsuranceMoney": 8000
-			},
-			"USER_ID": "*common*",
-			"DAMBO_NUM": "1101",
-			"DAMBO_NAME": "일반사망(종신)",
-			"CATEGORY_NAME": "사망보험금",
-			"CATEGORY_NUM": "11",
-			"CATEGORY_NAME_STR": "사망보험금"
-		}
-	}
+	"sourceTotal": "2,250",
+	"resultTotal": "2,710.8",
+	"regularTotal": "60",
+	"flexTotal": "1,776.2",
+	"sourceTotalStr": "2,250만원",
+	"resultTotalStr": "2,710.8만원"
 }

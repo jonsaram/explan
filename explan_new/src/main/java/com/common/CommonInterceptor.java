@@ -19,12 +19,17 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 	Object handler) throws Exception {
 		System.out.println("---PreHandle---");
 		
-		// TODO : 나중에 로그인 처리할때 변경 해야함.
-		String loginId = CommonAPI.getLoginId(request);
-		if(!CommonAPI.isValid(loginId)) {
-			HttpSession	session = request.getSession();
-			session.setAttribute("LOGIN_ID", "jonsaram");
-			request.setAttribute("loginId", "jonsaram");
+		String url = request.getRequestURL().toString();
+		if( 
+					url.indexOf("/login.do") 		> -1
+				||	url.indexOf("/loginProcess.do") > -1
+		) {
+			return true;
+		} else {
+			String loginId = CommonAPI.getLoginId(request);
+			if(!CommonAPI.isValid(loginId)) {
+				response.sendRedirect("/explan");
+			}
 		}
 		return true;
 	}

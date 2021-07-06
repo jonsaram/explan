@@ -15,6 +15,10 @@
 			 "planNum" 	: _SESSION["PLAN_NUM"]
 			,"planDate" : _SESSION["PLAN_DATE"]
 		}
+		if(isEmpty(parm.planNum)) {
+			alert('플랜을 선택하세요');
+			history.back();
+		}
 
 		// 현금흐름표 Component 초기화
 		_SVC_COM.initComponent("cashflowAnalysisComponent", parm,function() {});

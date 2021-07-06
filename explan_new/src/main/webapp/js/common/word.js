@@ -64,6 +64,7 @@ _WORD_LIST_MAP["INVESTMENT"] = {
 	,NORMAL_FEE       	: "운영보수(%/년)"
 	,SAVE_PLAN			: "추가 납입 계획"
 	// 부동산 관련
+	,IMMOVABLE_TYPE   	: "자산분류"
 	,IMMOVABLE_NAME   	: "자산종류"
 	,IMMOVABLE_VALUE  	: "현재가치/시세(만원)"
 	,INFLATION_RATE   	: "자산가치 증가율(%)"

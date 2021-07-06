@@ -152,7 +152,7 @@
 		    			,valueField 	: "damboRate"
 		    		}
 		    	]
-  		  		,colors 			: ["#FF6600", "#0D8ECF"],
+  		  		,colors 			: ["#FF6600", "#0D8ECF"]
 		    };
 		    
  			var chart = AmCharts.makeChart( targetDiv, chartConfig);

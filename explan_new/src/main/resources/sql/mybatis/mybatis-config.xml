@@ -19,10 +19,4 @@
 		<setting name="lazyLoadTriggerMethods" value="equals,clone,hashCode,toString"/>
 	</settings>
 	
-	<typeAliases>
-		<typeAlias alias="Genre" type="explan.mybatis.domain.Genre" />
-		<typeAlias alias="Movie" type="explan.mybatis.domain.Movie" />
-		<!--Add new alias here-->
-	</typeAliases>
-	
 </configuration>

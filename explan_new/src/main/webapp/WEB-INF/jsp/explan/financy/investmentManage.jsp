@@ -134,8 +134,9 @@
 
 	  		// Header Tooltip
 	  		var headerToolTipMap = {
-	  			 "TERM" 	: "입력형식 : xx개월 또는 xx년xx개월\n* 숫자만 입력 할 경우 개월단위로 간주."	
-	  			,"END_TERM" : "입력형식 : xx개월 또는 xx년xx개월\n* 숫자만 입력 할 경우 개월단위로 간주."	
+	  			 "START_DATE" 	: "8자리 년월일 ex) 20210612"	
+	  			,"TERM" 		: "xx개월 또는 xx년xx개월\n* 숫자만 입력 할 경우 개월단위로 간주.\n\nex1) 18개월,   ex2) 1년 6개월,   ex3) 36"	
+	  			,"END_TERM" 	: "xx개월 또는 xx년xx개월\n* 숫자만 입력 할 경우 개월단위로 간주.\n\nex1) 18개월,   ex2) 1년 6개월,   ex3) 36"	
 	  		}
 	  		
 	  		var gridParm = {

@@ -1560,6 +1560,11 @@
 		return Math.round(num * s) / s;
 	}
 	
+	function nvl(val, dstr) {
+		if(isEmpty(val)) 	return dstr;
+		else				return val;
+	}
+	
 	// Map To List
 	// ex1)
 	// var map  = {"A" : "1", "B" : "2"}

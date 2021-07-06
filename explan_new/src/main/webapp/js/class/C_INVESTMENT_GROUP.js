@@ -35,6 +35,7 @@ var C_INVESTMENT_GROUP = function(investmentList, targetDate) {
 	this.sourceTotal 				= 0;
 	this.resultTotal 				= 0;
 	this.regularTotal				= 0;
+	this.flexTotal					= 0;
 	this.scale						= 1;
 	this.baseInvestmentList 		= investmentList;
 	this.investmentList 			= [];
@@ -54,6 +55,7 @@ var C_INVESTMENT_GROUP = function(investmentList, targetDate) {
 		var sourceTotal 	= 0;
 		var resultTotal 	= 0;
 		var regularTotal 	= 0;
+		var flexTotal		= 0;
 
 		$.each(validList, function() {
 			// End Date 처리
@@ -79,11 +81,16 @@ var C_INVESTMENT_GROUP = function(investmentList, targetDate) {
 			
 			// 정기 투자금 합계
 			regularTotal += Number(this.regularMoney);
+			
+			// 유동 자산 처리
+			if(in_array(this.investmentType, ["예금", "적금"])) flexTotal += resultTotal;
+			
 		});
 
 		this.sourceTotal 	= sourceTotal;
 		this.resultTotal 	= resultTotal;
 		this.regularTotal 	= regularTotal;
+		this.flexTotal 		= flexTotal;
 		this.stateListGroupByTitle = slgt;
 
 		var slgtl 	= this.stateListGroupByTitleList;
@@ -109,6 +116,7 @@ var C_INVESTMENT_GROUP = function(investmentList, targetDate) {
 		});
 		var sourceTotal 	= addComma(Math.round(this.sourceTotal 	/ cv1) / cv2);
 		var resultTotal 	= addComma(Math.round(this.resultTotal 	/ cv1) / cv2);
+		var flexTotal 		= addComma(Math.round(this.flexTotal 	/ cv1) / cv2);
 		var regularTotal 	= addComma(Math.round(this.regularTotal	/ cv1) / cv2);
 		
 		var returnObj = {
@@ -116,6 +124,7 @@ var C_INVESTMENT_GROUP = function(investmentList, targetDate) {
 			,sourceTotal 	: sourceTotal
 			,resultTotal 	: resultTotal
 			,regularTotal 	: regularTotal
+			,flexTotal 		: flexTotal
 			,sourceTotalStr	: makeMoneyStr(sourceTotal)
 			,resultTotalStr	: makeMoneyStr(resultTotal)
 		}

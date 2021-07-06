@@ -21,11 +21,11 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.CommonAPI;
 import com.common.service.CommonService;
@@ -55,6 +55,19 @@ public class MainController {
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
+	}
+	@RequestMapping("login.do")
+	public String login(HttpServletRequest 	request, HttpServletResponse response) throws Exception {
+		return "explan/login";
+	}
+	@RequestMapping(value = "loginProcess.do", method = RequestMethod.POST)
+	public String loginProcess(HttpServletRequest 	request, HttpServletResponse response) throws Exception {
+		String loginId = request.getParameter("loginId");
+		String loginPw = request.getParameter("loginPw");
+		
+		CommonAPI.setLoginId(request, loginId);
+		
+		return "explan/loginSuccess";
 	}
 	@RequestMapping("mainFrame.do")
 	public String mainFrame(HttpServletRequest 	request, HttpServletResponse response) throws Exception {

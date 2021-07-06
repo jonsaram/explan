@@ -7,6 +7,9 @@
 		cCustomerManage.load();
 	});
 	
+	_DD_MAP["helpArray"] = {};
+	_DD_MAP["helpArray"]["customerTable"] = "* 필수값 : 고객명\n  -고객 이름만 입력해도 저장이 됩니다.\n\n* 입력 테이블에서 항목명에\n   마우스를 갖다 대면 도움말이 나타납니다.";  
+	
 	var cCustomerManage = {
 		 gridId	: "gridCustomer"
 		,load : function() {
@@ -30,19 +33,29 @@
 	 			else return true;
 	  		};
 	  		
+	  		// Header Tooltip
+	  		var headerToolTipMap = {
+	  			 "CUSTOMER_NAME": "필수입력항목"	
+	  			,"BIRTHDAY" 	: "자유입력방식(생략가능)"	
+	  			,"PHONE_NUM" 	: "자유입력방식(생략가능)"	
+	  			,"EMAIL"		: "자유입력방식(생략가능)"
+	  		}
+	  		
 	  		var gridParm = {
 				"targetDivId"	: this.gridId,
-				"orderList" 	: orderList,
-				"gridData"		: jsonData,
-				"cellConfig"	: {
-					"defaultConfig" : { "align"  : "center", "width" :"*", "colType":"edtxt"},
-					"columnConfig" 	: columnConfig
+				"orderList" 		: orderList,
+				"gridData"			: jsonData,
+				"cellConfig"		: {
+					"defaultConfig" 	: { "align"  : "center", "width" :"*", "colType":"edtxt"},
+					"columnConfig" 		: columnConfig
 				},
-				"validatorList"	: validatorList,
-				"dataConfig"	: {"useRownum"		: true},
-				"useAutoResize"	: true,
-				"useAutoHeight"	: { "margin" : 230 },
-				"useBlockCopy"	: true
+				"validatorList"		: validatorList,
+				"dataConfig"		: {"useRownum"		: true},
+				"useAutoResize"		: true,
+				"useAutoHeight"		: { "margin" : 230 },
+				"useBlockCopy"		: true,
+				"headerToolTipMap"	: headerToolTipMap
+				
 			}
 			var mygrid = explanGrid.makeGrid(gridParm);
 		}
@@ -109,7 +122,7 @@
 				<span class="btn_list"><a href="javascript:cCustomerManage.save();"	>저장		</a></span>
 			</div>
 		</div>
-		<div style="width:100%;height:420px">
+		<div style="width:100%;height:420px" title="customerTable">
 			<div id="gridCustomer" style="width:100%;height:100%;"></div>
 		</div>
 	</div>

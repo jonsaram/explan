@@ -20,6 +20,7 @@ var C_FINANCY_ANALYSIS = function(parmObj) {
 	this.loanTotal				= 0;
 	this.immovableTotal			= 0;
 	this.investmentTotal		= 0;
+	this.flexTotal				= 0;
 	
 	this.totalGroup				= {};
 	this.init = function(planInfo) {
@@ -77,21 +78,23 @@ var C_FINANCY_ANALYSIS = function(parmObj) {
 		/* // Immovable List */
 
 		// 총계 처리
-		this.loadTotal		= Number(this.loanInfo.principalTotal			);
+		this.loanTotal		= Number(this.loanInfo.principalTotal			);
 		this.immovableTotal	= Number(this.immovableInfo.resultTotal			);
 		this.investmentTotal= Number(this.investmentGroupByInfo.resultTotal	);
+		this.flexTotal		= Number(this.investmentGroupByInfo.flexTotal	);
 		this.totalSum		= this.investmentTotal + this.immovableTotal	;
-		this.orgTotalSum	= this.totalSum - this.loadTotal;
+		this.orgTotalSum	= this.totalSum - this.loanTotal;
 		this.totalSumStr	= makeMoneyStr(Math.round(this.totalSum			));
 		this.orgTotalSumStr	= makeMoneyStr(Math.round(this.orgTotalSum		));
 		
 		this.totalGroup = {
-			 loadTotal			: this.loadTotal		
+			 loanTotal			: this.loanTotal		
 			,immovableTotal	    : this.immovableTotal	
 			,investmentTotal    : this.investmentTotal
+			,flexTotal			: this.flexTotal
 			,totalSum		    : this.totalSum		
 			,orgTotalSum	    : this.orgTotalSum	
-			,loadTotalStr		: makeMoneyStr(Math.round(this.loadTotal			))		
+			,loanTotalStr		: makeMoneyStr(Math.round(this.loanTotal			))		
 			,immovableTotalStr	: makeMoneyStr(Math.round(this.immovableTotal		))
 			,investmentTotalStr	: makeMoneyStr(Math.round(this.investmentTotal   	))
 			,totalSumStr		: makeMoneyStr(Math.round(this.totalSum		     	))

@@ -10,15 +10,16 @@ var C_CASHFLOW = function(parmObj) {
 
 	var planInfo = _SVC_COM.getPlanInfo(parmObj.planNum);
 	
-	this.planNum 		= parmObj.planNum;
-	this.planDate 		= planInfo.START_DATE;
-	this.incomeList		= [];
-	this.incomeMap		= {};
-	this.consumeList	= [];
-	this.consumeMap		= {};
-	this.restTotal		= 0;
-	this.incomeTotal 	= 0;
-	this.consumeTotal 	= 0;
+	this.planNum 			= parmObj.planNum;
+	this.planDate 			= planInfo.START_DATE;
+	this.incomeList			= [];
+	this.incomeMap			= {};
+	this.consumeList		= [];
+	this.consumeMap			= {};
+	this.restTotal			= 0;
+	this.incomeTotal 		= 0;
+	this.consumeTotal 		= 0;
+	this.insuranceTotal		= 0;
 	
 	this.consumeGubunList = [
 		 { type : "CF", title : "고정지출"					,total : 0}
@@ -33,6 +34,8 @@ var C_CASHFLOW = function(parmObj) {
 	this.consumeTypeMap["소비성지출"] 	= 0;
 	this.consumeTypeMap["잉여자금"] 	= 0;
 	
+	// 부채
+	this.cashflowMap 	= {};
 	
 	// Cashflow List 읽어오기
 	var parm = {
@@ -43,10 +46,9 @@ var C_CASHFLOW = function(parmObj) {
 		
 	var cashflowList 	= gridInfo.data;
 		
-	var cashflowMap 	= {};
 	$.each(cashflowList, function() {
 		var key 			= this.ITEM_TYPE + this.ITEM_NAME;
-		cashflowMap[key] 	= this.ITEM_VALUE;
+		pthis.cashflowMap[key] 	= this.ITEM_VALUE;
 	});
 
 	// 저축 투자금액 Setting
@@ -61,7 +63,7 @@ var C_CASHFLOW = function(parmObj) {
 	var cInvestmentGroup	= new C_INVESTMENT_GROUP(jsonData, this.planDate);
 	var investmentInfo 		= cInvestmentGroup.getSumGroupTitleInfo();
 	
-	cashflowMap["CF저축/투자"]= investmentInfo.regularTotal;
+	this.cashflowMap["CF저축/투자"]= investmentInfo.regularTotal;
 	this.consumeTypeMap["저축성지출"] += Number(investmentInfo.regularTotal);
 
 	// 부채 상환금액 Setting
@@ -76,14 +78,16 @@ var C_CASHFLOW = function(parmObj) {
 	var cLoanGroup 	= new C_LOAN_GROUP(jsonData);
 	var loanInfo 	= cLoanGroup.getLoanInfo(this.planDate);
 	
-	cashflowMap["CF대출상환금"] 	 	 = loanInfo.paybackTotal;
+	this.cashflowMap["CF대출상환금"] 	 	 = loanInfo.paybackTotal;
 
 	this.consumeTypeMap["저축성지출"] 	+= Number(loanInfo.paybackPrincipalTotal);
 	
 	
 	// 보험 금액 읽어오기
 	var cInsuranceGroup = _SVC_INSURANCE.makeInsuranceGroup(this.planNum);
-	cashflowMap["CF보험료"] = fn_fix(cInsuranceGroup.allTotal.PAY_EACH_MONTH/10000, 1);
+	this.cashflowMap["CF보험료"] = fn_fix(cInsuranceGroup.allTotal.PAY_EACH_MONTH/10000, 1);
+	
+	this.insuranceTotal		= cInsuranceGroup.allTotal.PAY_EACH_MONTH;
 
 	this.incomeList = [
   		 {ITEM_NAME : "근로소득", ITEM_VALUE : "", ITEM_TYPE : "IL"}
@@ -96,7 +100,7 @@ var C_CASHFLOW = function(parmObj) {
 
   	$.each(this.incomeList, function(idx) {
  		var key = this.ITEM_TYPE + this.ITEM_NAME;
- 		this.ITEM_VALUE = cashflowMap[key];
+ 		this.ITEM_VALUE = pthis.cashflowMap[key];
   		if(!isValid(this.ITEM_VALUE)) return true;
   		this.itemValueStr	 = addComma(this.ITEM_VALUE);
   		pthis.incomeTotal 	+= Number(this.ITEM_VALUE);
@@ -133,7 +137,7 @@ var C_CASHFLOW = function(parmObj) {
   	var tmpGubunList = this.consumeGubunList;
   	$.each(this.consumeList, function(idx) {
   		var key = this.ITEM_TYPE + this.ITEM_NAME;
-  		this.ITEM_VALUE	 = cashflowMap[key];
+  		this.ITEM_VALUE	 = pthis.cashflowMap[key];
   		
 		if(isValid(this.sumType)) {
 			// 고정지출, 변동지출, 년단위 지출에 대해 따로 저장

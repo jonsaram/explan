@@ -317,4 +317,8 @@ public class CommonAPI {
 		String loginId = (String)session.getAttribute("LOGIN_ID");
 		return loginId;
 	}
+	public static void setLoginId (HttpServletRequest request, String id ) throws Exception{
+		HttpSession	session = request.getSession();
+		session.setAttribute("LOGIN_ID", id);
+	}
 }

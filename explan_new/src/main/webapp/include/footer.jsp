@@ -43,6 +43,20 @@
 <script type="text/javascript">
 
 	initHiddenForm();
+	
+	$(".layer_pop_wrap").hide();
+	
+	$(function() {
+		$(".layer_pop_wrap").show();
+		
+		// 도움말 처리
+		
+		$("[title]").each(function() {
+			var title = $(this).attr("title");
+			if(isValid(_DD_MAP["helpArray"][title])) $(this).attr("title", _DD_MAP["helpArray"][title]);
+		});
+	});
+	
 
 	$(function() {
 		// Page Load 완료 처리
