@@ -72,7 +72,7 @@ public class InsuranceService extends BaseService{
 		
 		String keyName				= "INSURANCE_NUM"			;
 		String tableName			= "T_FIN_INSURANCE"		;
-		String financyType			= "M"						;
+		String financyType			= "I"						;
 		String financyName			= "insurance"				;
 		String financySaveQueryId	= "Insurance.saveInsurance";
 		
@@ -268,4 +268,5 @@ public class InsuranceService extends BaseService{
 		resultInfo = makeResult(BaseService.REQUEST_SUCCESS, "", null);
 		return resultInfo;
 	}
+	
 }

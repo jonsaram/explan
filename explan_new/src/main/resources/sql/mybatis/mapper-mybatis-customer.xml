@@ -18,6 +18,20 @@
 		WHERE 	1=1
 			AND USER_ID = #{USER_ID}
 	</select>
+	<!-- 공통 포함 고객 리스트 -->
+	<select id="getCommonCustomerList" resultType="java.util.HashMap">
+		SELECT 
+		   CUSTOMER_NUM 
+		  ,CUSTOMER_NAME 
+		  ,BIRTHDAY 
+		  ,PHONE_NUM 
+		  ,EMAIL 
+		  ,DATE_FORMAT(CREATE_DATE, '%Y-%m-%d') AS CREATE_DATE
+		  ,USER_ID 
+		FROM V_COM_CUSTOMER
+		WHERE 	1=1
+			AND USER_ID IN ( #{USER_ID}, '_common' )
+	</select>
 	<!-- 고객 저장 -->
 	<select id="saveCustomer" parameterType="java.util.HashMap">
 		INSERT INTO T_COM_CUSTOMER 

@@ -16,7 +16,9 @@
 			,"planDate" : _SESSION["PLAN_DATE"]
 		}
 		if(isEmpty(parm.planNum)) {
-			alert('플랜을 선택하세요');
+			$("body").hide();
+			alert('고객을 선택 해주세요.');
+			$("body").show();
 			history.back();
 		}
 

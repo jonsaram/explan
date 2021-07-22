@@ -2,7 +2,7 @@
 
 <%@include  file="/include/header.jsp" %>
 
-		
+<!-- 
 	<h3>Title</h3>
 
 	Sample List<br/><br/>
@@ -45,6 +45,11 @@
 	<br/><br/>
 	DHTMLX 관련<br/><br/>
 	<a href="javascript:movePage('SAMPLE_DHTMLX', {}, '_blank')" 	>기본 DHTMLX</a><br/><br/>
-	
+ -->			
+ 	<script>
+ 		$(function() {
+ 	 		movePage('CUSTOMER_LIST', {});
+ 		});
+ 	</script>
 
 <%@include  file="/include/footer.jsp" %>

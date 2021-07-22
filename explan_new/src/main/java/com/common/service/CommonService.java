@@ -304,4 +304,13 @@ public class CommonService extends BaseService {
 		// 자산 Copy
 		investmentService.copyInvestmentList(map, request);
 	}
+	// 회원 등록
+	@SuppressWarnings({ "rawtypes", "unchecked" })
+	public void registProcess(Map map) throws Exception {
+		String damboGroupNum = CommonAPI.makeUniqueID();
+		map.put("GROUP_NUM", damboGroupNum);
+		commonDao.update("Common.registProcess"			, map);
+		commonDao.update("Common.baseSetDamboGroupInfo"	, map);
+		commonDao.update("Common.baseSetDamboGroup"		, map);
+	}
 }

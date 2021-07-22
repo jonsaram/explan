@@ -436,7 +436,7 @@ var explanGrid={
 			var colConfig = columnConfig[headerName];
 
 			if(colConfig != undefined) {
-				if(isValid(colConfig.width		))  width 	= colConfig.width	;
+				if(isValid(colConfig.width		)) width 	= colConfig.width	;
 				if(isValid(colConfig.colType	)) colType 	= colConfig.colType	;
 				if(isValid(colConfig.align		)) align 	= colConfig.align	;
 				if(isValid(colConfig.sortType	)) sortType = colConfig.sortType;

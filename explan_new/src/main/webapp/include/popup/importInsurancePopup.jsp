@@ -21,7 +21,7 @@
 			this.callback = callback;
 			
 			// 서비스 요청
-			var gridInfo = requestService("GET_COMMON", {"sqlId" : "Customer.getCustomerList"}, "C");
+			var gridInfo = requestService("GET_COMMON", {"sqlId" : "Customer.getCommonCustomerList"}, "C");
 
 			var jsonData = gridInfo.data;
 			
@@ -134,6 +134,7 @@
 			
 			if(resultInfo.state == "S"){
 				alert('가져오기가 완료 되었습니다.');
+				_G_FN['${popupIdImpIns}'].close('S');
 			} else 	{
 				alert(resultInfo.msg);
 			}

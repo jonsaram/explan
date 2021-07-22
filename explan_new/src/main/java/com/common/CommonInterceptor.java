@@ -21,8 +21,10 @@ public class CommonInterceptor extends HandlerInterceptorAdapter {
 		
 		String url = request.getRequestURL().toString();
 		if( 
-					url.indexOf("/login.do") 		> -1
-				||	url.indexOf("/loginProcess.do") > -1
+						url.indexOf("/join.do") 		> -1
+					||	url.indexOf("/login.do") 		> -1
+					||	url.indexOf("/loginProcess.do") > -1
+					||	url.indexOf("/registProcess.do") > -1
 		) {
 			return true;
 		} else {

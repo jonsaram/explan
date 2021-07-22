@@ -111,7 +111,7 @@
 		}
 		,addRow : function() {
 			if(!isValid(_SESSION["PLAN_NUM"])) {
-				alert('플랜을 선택 하세요.');
+				alert('고객을 선택 하세요.');
 				return;
 			}
 			explanGrid.addRow("${pageId}_gridbox");
@@ -127,18 +127,20 @@
 			});
 		}
 		,importInsurance : function() {
+			if(isEmpty(_SESSION["PLAN_NUM"])) {
+				alert('고객을 선택하세요.');
+				return;
+			}
 			_SVC_POPUP.setConfig("importInsurancePopup", {}, function(returnData) {
+				if(returnData == 'S') {
+					cInsuranceManage.load();
+				}
 			});
 			_SVC_POPUP.show("importInsurancePopup");
 		}
 		,goSave : function() {
 			if(!isValid(_SESSION["PLAN_NUM"])) {
-				alert('플랜을 선택 하세요.');
-				return;
-			}
-			var isEmpty = explanGrid.isEmpty("${pageId}_gridbox");
-			if(isEmpty) {
-				alert("저장 할 내용이 없습니다.");
+				alert('고객을 선택 하세요.');
 				return;
 			}
 			var changeCheck = explanGrid.isChanged("${pageId}_gridbox");
@@ -161,7 +163,7 @@
 			
 			var sendParm = {
 				 "planNum"					: _SESSION["PLAN_NUM"]
-				,"deletedInsuranceNumList"	: deletedInsuranceNumList	
+				,"insuranceDelList"			: deletedInsuranceNumList	
 				,"insuranceList" 			: jsonData					
 			}
 
@@ -557,9 +559,15 @@
 	    	val = val.replaceAll(" "	, "");
 	    	val = val.replaceAll("세"	, "");
 	    	val = val.replaceAll("만원"	, "");
-
 	    	var insuranceNum 	= fn_getSelectBox("selectInsurance");
 	    	var guaranteeTerm 	= cInsuranceCommon.INS_INFO_MAP[insuranceNum].GUARANTEE_TERM;	    	
+	    	var guaranteeType 	= cInsuranceCommon.INS_INFO_MAP[insuranceNum].GUARANTEE_TERM_TYPE;
+	    	if(guaranteeType == "년만기") {
+	    		var insuredTxt 		= $("#selectInsured option:selected").html();
+	    		var birth = Number(insuredTxt.split("/")[1]);
+	    		var nowYear = Number(getToday(4))
+	    		guaranteeTerm = nowYear - birth + 1 + Number(guaranteeTerm);
+	    	}
 	    	
 	    	if(isValid(val)) {
 	    		var itemList 	= val.split(",");
@@ -717,7 +725,7 @@
 					</div>
 					<div class="setting">
 						<span style="margin-top:3px">담보 그룹 : </span><select id="selectDamboGroup" name="selectDamboGroup" onChange="cDamboManage.changeDamboGroup();"></select>
-						<span class="btn_ico btn_excel"><a title="Excel Download" class="excel" href="#">Excel Download</a></span>
+						<span class="btn_ico btn_excel"><a class="excel" href="#">Excel Download</a></span>
 					</div>
 				</div>
 				<div style="width:100%;height:400px">

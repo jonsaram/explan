@@ -31,7 +31,7 @@
 				,"numberList" 		: ["PAYBACK_EACH_MONTH"]
 				,"floatList" 		: ["LOAN_RATE"]
 				,"mnumList"			: ["LOAN_TOTAL"]
-				,"emptyList"		: ["KUCHI_TERM","PAYBACK_TERM"]
+				,"emptyList"		: ["KUCHI_TERM","PAYBACK_TERM","COMMENT" ]
 				,"baseValidation"	: ["LOAN_TYPE"]		// 기본 Valid만 Check한다.(Commbo 이외의 값도 허용하기 위함)
 			};
 
@@ -60,20 +60,31 @@
 //	  			return false;
 //	  		}
 
+//	  		var orderList = "[!CB],[!RN],[!HD]LOAN_NUM,LOAN_TYPE,LOAN_COMPANY,LOAN_TOTAL,LOAN_RATE,START_DATE,KUCHI_TERM,PAYBACK_TERM,PAYBACK_TYPE,PAYBACK_EACH_MONTH,COMMENT,STATE";
+	  		// Header Tooltip
+	  		var headerToolTipMap = {
+		  		 "LOAN_TOTAL"			: "입력 단위 : 만원\n 1억 입력시 10000 으로 입력하면 1억 이라고 표시됨."
+			  	,"LOAN_RATE"			: "연 이자율(%)"
+	  			,"START_DATE" 			: "8자리 년월일 ex) 20210612"	
+	  			,"KUCHI_TERM"			: "* 00개월 또는 00년00개월\n* 숫자만 입력 할 경우 개월단위로 간주.\n\nex1) 18개월,   ex2) 2년,   ex3) 36"
+	  			,"PAYBACK_TERM"			: "* 00개월 또는 00년00개월\n* 숫자만 입력 할 경우 개월단위로 간주.\n\nex1) 18개월,   ex2) 2년,   ex3) 36"
+			  	,"PAYBACK_EACH_MONTH"	: "* 앞에 입력한 값으로 자동계산됨.\n* 임의값 입력 가능."
+	  		}
 	  		var gridParm = {
-				 "targetDivId"	: "${pageId}_gridbox"
-				,"orderList" 	: orderList
-				,"gridData"		: jsonData
-				,"cellConfig"	: {
+				 "targetDivId"		: "${pageId}_gridbox"
+				,"orderList" 		: orderList
+				,"gridData"			: jsonData
+				,"cellConfig"		: {
 					"defaultConfig" 	: { "align"  : "center", "width" :"120", "colType":"edtxt"}
 					,"columnConfig" 	: columnConfig
 				}
-				,"validatorList": validatorList
-				,"dataConfig"	: {"useRownum"		: true}
-				,"useAutoResize": true
-				,"useAutoHeight": { "margin" : 380 }
-				,"useBlockCopy"	: true
-				,"useAdjust"	: true
+				,"validatorList"	: validatorList
+				,"dataConfig"		: {"useRownum"		: true}
+				,"useAutoResize"	: true
+				,"useAutoHeight"	: { "margin" : 380 }
+				,"useBlockCopy"		: true
+				,"useAdjust"		: true
+				,"headerToolTipMap" : headerToolTipMap
 
 				// 추가 옵션
 				//// Header Tooltip
@@ -91,7 +102,7 @@
 		}
 		,addRow : function() {
 			if(!isValid(_SESSION["PLAN_NUM"])) {
-				alert('플랜을 선택 하세요.');
+				alert('고객을 선택 하세요.');
 				return;
 			}
 			explanGrid.addRow("${pageId}_gridbox");
@@ -106,7 +117,7 @@
 		}
 		,goSave	: function() {
 			if(!isValid(_SESSION["PLAN_NUM"])) {
-				alert('플랜을 선택 하세요.');
+				alert('고객을 선택 하세요.');
 				return;
 			}
 
@@ -189,6 +200,20 @@
 				}
 			}
 		}
+		// 선택 예/적금 가져오기
+		,importLoan : function(subId) {
+			alert();
+			if(isEmpty(_SESSION["PLAN_NUM"])) {
+				alert('고객을 선택하세요.');
+				return;
+			}
+			_SVC_POPUP.setConfig("importLoanPopup", {}, function(returnData) {
+				if(returnData == 'S') {
+					cLoanManage.load();
+				}
+			});
+			_SVC_POPUP.show("importLoanPopup");
+		}
 	}
 	
 </script>
@@ -214,6 +239,9 @@
 				<span class="btn_list"><a href="javascript:cLoanManage.goSave();">저장</a></span>
 				<span class="btn_list"><a href="javascript:cLoanManage.load()  ;">새로고침</a></span>
 			</div>
+			<div class="setting">
+				<span class="btn_list"><a href="javascript:cLoanManage.importLoan();">부채 가져오기</a></span>
+			</div>
 		</div>
 		<div style="width:100%;height:400px">
 			<div id="${pageId}_gridbox" style="width:100%;height:100%;"></div>
@@ -221,6 +249,9 @@
 </div>
 
 <div class="page_button"><span class="btn_page"><a href="javascript:cLoanManage.goSave()">저장</a></span></div>
+
+<!-- Add Loan Popup -->
+<%@include  file="/include/popup/importLoanPopup.jsp" %>
 
 <%@include  file="/include/footer.jsp" %>
 

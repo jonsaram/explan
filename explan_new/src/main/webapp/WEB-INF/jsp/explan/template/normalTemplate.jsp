@@ -70,7 +70,7 @@
 		}
 		,addRow : function() {
 			if(!isValid(_SESSION["PLAN_NUM"])) {
-				alert('플랜을 선택 하세요.');
+				alert('고객을 선택 하세요.');
 				return;
 			}
 			explanGrid.addRow("${pageId}_gridbox");
@@ -83,7 +83,7 @@
 		}
 		,goSave	: function() {
 			if(!isValid(_SESSION["PLAN_NUM"])) {
-				alert('플랜을 선택 하세요.');
+				alert('고객을 선택 하세요.');
 				return;
 			}
 

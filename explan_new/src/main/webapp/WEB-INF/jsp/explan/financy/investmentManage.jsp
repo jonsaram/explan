@@ -40,6 +40,7 @@
 	var cInvestmentManage = {
 		load : function() {
 			// 현재 보여지는 Tab Idx를 가져온다.
+			debugger;
 			var tabIdx = _SVC_COM.getCurrentTabIndex();
 			var subId  = 1;
 			
@@ -134,9 +135,15 @@
 
 	  		// Header Tooltip
 	  		var headerToolTipMap = {
-	  			 "START_DATE" 	: "8자리 년월일 ex) 20210612"	
-	  			,"TERM" 		: "xx개월 또는 xx년xx개월\n* 숫자만 입력 할 경우 개월단위로 간주.\n\nex1) 18개월,   ex2) 1년 6개월,   ex3) 36"	
-	  			,"END_TERM" 	: "xx개월 또는 xx년xx개월\n* 숫자만 입력 할 경우 개월단위로 간주.\n\nex1) 18개월,   ex2) 1년 6개월,   ex3) 36"	
+		  		 "INVESTMENT_TYPE"	: "더블클릭하여 선택"
+			  	,"INVESTMENT_TITLE"	: "더블클릭하여 입력"
+	  			,"START_DATE" 		: "8자리 년월일 ex) 20210612"	
+	  			,"TERM" 			: "* 00개월 또는 00년00개월\n* 숫자만 입력 할 경우 개월단위로 간주.\n\nex1) 18개월,   ex2) 2년,   ex3) 36"	
+	  			,"END_TERM" 		: "* 00개월 또는 00년00개월\n* 숫자만 입력 할 경우 개월단위로 간주.\n\nex1) 18개월,   ex2) 2년,   ex3) 36"
+	  			,"INTEREST_RATE"	: "연이율 또는 연평균 예상 수익률을 숫자로 입력"
+	  			,"NORMAL_FEE"		: "연 운영보수를 숫자로 입력"
+	  			,"FEE"				: "ex) 7/10/3 => 이렇게 입력하면 \n     선취 7%, 10년 납입 후 3% 라는 의미"
+	  			,"STATE"			: "더블클릭하여 상태변경"
 	  		}
 	  		
 	  		var gridParm = {
@@ -175,7 +182,7 @@
 		}
 		,addRow : function() {
 			if(!isValid(_SESSION["PLAN_NUM"])) {
-				alert('플랜을 선택 하세요.');
+				alert('고객을 선택 하세요.');
 				return;
 			}
 			var rowId = explanGrid.addRow("${pageId}_gridboxType" + _TAB_IDX);
@@ -185,7 +192,7 @@
 				explanGrid.setValueById	("${pageId}_gridboxType" + _TAB_IDX, rowId, "INTEREST_TYPE", "월복리");	
 			}
 			if(_SESSION["PLAN_TYPE"] == "제안") {
-				explanGrid.setValueById	("${pageId}_gridboxType" + _TAB_IDX, rowId, "STATE", "신규");
+				explanGrid.setValueById	("${pageId}_gridboxType" + _TAB_IDX, rowId, "STATE", "신규편입");
 			}
 
 		}
@@ -197,7 +204,7 @@
 		}
 		,goSave : function() {
 			if(!isValid(_SESSION["PLAN_NUM"])) {
-				alert('플랜을 선택 하세요.');
+				alert('고객을 선택 하세요.');
 				return;
 			}
 
@@ -302,6 +309,19 @@
 					}
 				}
 			}
+		 }
+		// 선택 예/적금 가져오기
+		,importInvestment : function(subId) {
+			if(isEmpty(_SESSION["PLAN_NUM"])) {
+				alert('고객을 선택하세요.');
+				return;
+			}
+			_SVC_POPUP.setConfig("importInvestmentPopup", {subId : subId}, function(returnData) {
+				if(returnData == 'S') {
+					cInvestmentManage.load();
+				}
+			});
+			_SVC_POPUP.show("importInvestmentPopup");
 		}
 	}
 	
@@ -328,7 +348,7 @@
 		    			realData = valList[0]+"/"+valList[1]+"/"+valList[2];
 
 	    				val  = "<span style=display:none>"+realData+"</span>";
-		    			val += "초기 " + valList[0] + "%, ";
+		    			val += "선취 " + valList[0] + "%, ";
 		    			val += valList[1] + "년 후 ";
 		    			val += valList[2] + "%";
 		    			
@@ -391,10 +411,14 @@
 				<span class="btn_list"><a href="javascript:cInvestmentManage.goSave();">저장</a></span>
 				<span class="btn_list"><a href="javascript:cInvestmentManage.load()  ;">새로고침</a></span>
 			</div>
+			<div class="setting">
+				<span class="btn_list"><a href="javascript:cInvestmentManage.importInvestment(1);">예금/적금 가져오기</a></span>
+			</div>
 		</div>
 		<div style="width:100%;height:400px">
 			<div id="${pageId}_gridboxType1" style="width:100%;height:100%;"></div>
 		</div>
+		
 	</div>
 </div>
 <div id="#" class="tab_cont" style="display:none">
@@ -405,6 +429,9 @@
 				<span class="btn_list"><a href="javascript:cInvestmentManage.delRow();">삭제</a></span>
 				<span class="btn_list"><a href="javascript:cInvestmentManage.goSave();">저장</a></span>
 				<span class="btn_list"><a href="javascript:cInvestmentManage.load()  ;">새로고침</a></span>
+			</div>
+			<div class="setting">
+				<span class="btn_list"><a href="javascript:cInvestmentManage.importInvestment(2);">주식/펀드 가져오기</a></span>
 			</div>
 		</div>
 		<div style="width:100%;height:400px">
@@ -421,6 +448,9 @@
 				<span class="btn_list"><a href="javascript:cInvestmentManage.goSave();">저장</a></span>
 				<span class="btn_list"><a href="javascript:cInvestmentManage.load()  ;">새로고침</a></span>
 			</div>
+			<div class="setting">
+				<span class="btn_list"><a href="javascript:cInvestmentManage.importInvestment(3);">보험/기타 가져오기</a></span>
+			</div>
 		</div>
 		<div style="width:100%;height:400px">
 			<div id="${pageId}_gridboxType3" style="width:100%;height:100%;"></div>
@@ -428,5 +458,8 @@
 	</div>
 </div>
 <div class="page_button"><span class="btn_page"><a href="javascript:cInvestmentManage.goSave()">저장</a></span></div>
+
+<!-- Add Investment Popup -->
+<%@include  file="/include/popup/importInvestmentPopup.jsp" %>
 
 <%@include  file="/include/footer.jsp" %>

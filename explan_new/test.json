@@ -1,58 +1,849 @@
 {
-	"groupList": [
-		{
-			"investmentType": "적금",
-			"source": "480",
-			"total": "678",
-			"investmentTypeName": "적금",
-			"sourceStr": "480만원",
-			"totalStr": "678만원"
-		},
-		{
-			"investmentType": "예금",
-			"source": "50",
-			"total": "81.2",
-			"investmentTypeName": "예금",
-			"sourceStr": "50만원",
-			"totalStr": "81.2만원"
-		},
-		{
-			"investmentType": "펀드",
-			"source": "250",
-			"total": "343.7",
-			"investmentTypeName": "펀드",
-			"sourceStr": "250만원",
-			"totalStr": "343.7만원"
-		},
-		{
-			"investmentType": "주식",
-			"source": "250",
-			"total": "354.1",
-			"investmentTypeName": "주식",
-			"sourceStr": "250만원",
-			"totalStr": "354.1만원"
-		},
-		{
-			"investmentType": "보험",
-			"source": "610",
-			"total": "596.6",
-			"investmentTypeName": "보험",
-			"sourceStr": "610만원",
-			"totalStr": "596.6만원"
-		},
-		{
-			"investmentType": "기타",
-			"source": "610",
-			"total": "657.3",
-			"investmentTypeName": "기타",
-			"sourceStr": "610만원",
-			"totalStr": "657.3만원"
+	"1101": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1101",
+		"DAMBO_NAME": "일반사망(종신)",
+		"CATEGORY_NAME": "사망보험금",
+		"CATEGORY_NUM": "11",
+		"CATEGORY_NAME_STR": "사망보험금",
+		"샘플종신보험": "10,000만원~7,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17abe83c4fabe0",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1101",
+				"INSURANCE_MONEY": "100/5000,80/7000,60/10000",
+				"INSURANCE_DAMBO_NUM": "17abe88fb66127",
+				"TERM_MONEY_MAP": {
+					"60": {
+						"minInsuranceMoney": "10000",
+						"maxInsuranceMoney": "10000"
+					},
+					"80": {
+						"minInsuranceMoney": "7000",
+						"maxInsuranceMoney": "7000"
+					},
+					"100": {
+						"minInsuranceMoney": "5000",
+						"maxInsuranceMoney": "5000"
+					},
+					"minimumInsuranceMoney": "10000",
+					"maximumInsuranceMoney": "7000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "10000",
+					"maxInsuranceMoney": "7000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 10000,
+			"maxInsuranceMoney": 7000
 		}
-	],
-	"sourceTotal": "2,250",
-	"resultTotal": "2,710.8",
-	"regularTotal": "60",
-	"flexTotal": "1,776.2",
-	"sourceTotalStr": "2,250만원",
-	"resultTotalStr": "2,710.8만원"
+	},
+	"1108": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1108",
+		"DAMBO_NAME": "암사망",
+		"CATEGORY_NAME": "사망보험금",
+		"CATEGORY_NUM": "11",
+		"CATEGORY_NAME_STR": "사망보험금",
+		"샘플 암보험": "2,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17abe86a55b2a7",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1108",
+				"INSURANCE_MONEY": "62/2000",
+				"INSURANCE_DAMBO_NUM": "17abee1c0d035d",
+				"TERM_MONEY_MAP": {
+					"62": {
+						"minInsuranceMoney": "2000",
+						"maxInsuranceMoney": "2000"
+					},
+					"minimumInsuranceMoney": "2000",
+					"maximumInsuranceMoney": "2000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "2000",
+					"maxInsuranceMoney": "2000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 2000,
+			"maxInsuranceMoney": 2000
+		}
+	},
+	"1201": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1201",
+		"DAMBO_NAME": "재해/상해80%이상후유장해",
+		"CATEGORY_NAME": "장해보상금",
+		"CATEGORY_NUM": "12",
+		"CATEGORY_NAME_STR": "장해보상금",
+		"샘플종신보험": "10,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17abe83c4fabe0",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1201",
+				"INSURANCE_MONEY": "100/10000",
+				"INSURANCE_DAMBO_NUM": "17abe88fb6a3c1",
+				"TERM_MONEY_MAP": {
+					"100": {
+						"minInsuranceMoney": "10000",
+						"maxInsuranceMoney": "10000"
+					},
+					"minimumInsuranceMoney": "10000",
+					"maximumInsuranceMoney": "10000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "10000",
+					"maxInsuranceMoney": "10000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 10000,
+			"maxInsuranceMoney": 10000
+		}
+	},
+	"1202": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1202",
+		"DAMBO_NAME": "재해/상해50%이상후유장해",
+		"CATEGORY_NAME": "장해보상금",
+		"CATEGORY_NUM": "12",
+		"CATEGORY_NAME_STR": "장해보상금",
+		"샘플종신보험": "5,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17abe83c4fabe0",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1202",
+				"INSURANCE_MONEY": "100/5000",
+				"INSURANCE_DAMBO_NUM": "17abe88fb6b124",
+				"TERM_MONEY_MAP": {
+					"100": {
+						"minInsuranceMoney": "5000",
+						"maxInsuranceMoney": "5000"
+					},
+					"minimumInsuranceMoney": "5000",
+					"maximumInsuranceMoney": "5000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "5000",
+					"maxInsuranceMoney": "5000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 5000,
+			"maxInsuranceMoney": 5000
+		}
+	},
+	"1301": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1301",
+		"DAMBO_NAME": "일반암",
+		"CATEGORY_NAME": "진단비",
+		"CATEGORY_NUM": "13",
+		"CATEGORY_NAME_STR": "진단비",
+		"샘플 실손 보험": "3,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17abe86a5563d4",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1301",
+				"INSURANCE_MONEY": "100/3000",
+				"INSURANCE_DAMBO_NUM": "17ac3c6d65b255",
+				"TERM_MONEY_MAP": {
+					"100": {
+						"minInsuranceMoney": "3000",
+						"maxInsuranceMoney": "3000"
+					},
+					"minimumInsuranceMoney": "3000",
+					"maximumInsuranceMoney": "3000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "3000",
+					"maxInsuranceMoney": "3000"
+				}
+			},
+			{
+				"INSURANCE_NUM": "17abe86a55b2a7",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1301",
+				"INSURANCE_MONEY": "62/10000",
+				"INSURANCE_DAMBO_NUM": "17abee1c0d3316",
+				"TERM_MONEY_MAP": {
+					"62": {
+						"minInsuranceMoney": "10000",
+						"maxInsuranceMoney": "10000"
+					},
+					"minimumInsuranceMoney": "10000",
+					"maximumInsuranceMoney": "10000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "10000",
+					"maxInsuranceMoney": "10000"
+				}
+			}
+		],
+		"샘플 암보험": "10,000만원",
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 13000,
+			"maxInsuranceMoney": 13000
+		}
+	},
+	"1302": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1302",
+		"DAMBO_NAME": "고액암",
+		"CATEGORY_NAME": "진단비",
+		"CATEGORY_NUM": "13",
+		"CATEGORY_NAME_STR": "진단비",
+		"샘플 암보험": "30,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17abe86a55b2a7",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1302",
+				"INSURANCE_MONEY": "62/30000",
+				"INSURANCE_DAMBO_NUM": "17abee1c0d4253",
+				"TERM_MONEY_MAP": {
+					"62": {
+						"minInsuranceMoney": "30000",
+						"maxInsuranceMoney": "30000"
+					},
+					"minimumInsuranceMoney": "30000",
+					"maximumInsuranceMoney": "30000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "30000",
+					"maxInsuranceMoney": "30000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 30000,
+			"maxInsuranceMoney": 30000
+		}
+	},
+	"1312": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1312",
+		"DAMBO_NAME": "뇌졸중",
+		"CATEGORY_NAME": "진단비",
+		"CATEGORY_NUM": "13",
+		"CATEGORY_NAME_STR": "진단비",
+		"샘플종신보험": "2,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17abe83c4fabe0",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1312",
+				"INSURANCE_MONEY": "100/2000",
+				"INSURANCE_DAMBO_NUM": "17abe88fb6d2eb",
+				"TERM_MONEY_MAP": {
+					"100": {
+						"minInsuranceMoney": "2000",
+						"maxInsuranceMoney": "2000"
+					},
+					"minimumInsuranceMoney": "2000",
+					"maximumInsuranceMoney": "2000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "2000",
+					"maxInsuranceMoney": "2000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 2000,
+			"maxInsuranceMoney": 2000
+		}
+	},
+	"1315": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1315",
+		"DAMBO_NAME": "허혈성심장질환",
+		"CATEGORY_NAME": "진단비",
+		"CATEGORY_NUM": "13",
+		"CATEGORY_NAME_STR": "진단비",
+		"샘플종신보험": "2,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17abe83c4fabe0",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1315",
+				"INSURANCE_MONEY": "100/2000",
+				"INSURANCE_DAMBO_NUM": "17abe88fb6e1d6",
+				"TERM_MONEY_MAP": {
+					"100": {
+						"minInsuranceMoney": "2000",
+						"maxInsuranceMoney": "2000"
+					},
+					"minimumInsuranceMoney": "2000",
+					"maximumInsuranceMoney": "2000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "2000",
+					"maxInsuranceMoney": "2000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 2000,
+			"maxInsuranceMoney": 2000
+		}
+	},
+	"1702": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1702",
+		"DAMBO_NAME": "상해입원의료비",
+		"CATEGORY_NAME": "실손보상",
+		"CATEGORY_NUM": "17",
+		"CATEGORY_NAME_STR": "실손보상",
+		"샘플 실손 보험": "10,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17abe86a5563d4",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1702",
+				"INSURANCE_MONEY": "80/10000",
+				"INSURANCE_DAMBO_NUM": "17ac3c6d65d3c1",
+				"TERM_MONEY_MAP": {
+					"80": {
+						"minInsuranceMoney": "10000",
+						"maxInsuranceMoney": "10000"
+					},
+					"minimumInsuranceMoney": "10000",
+					"maximumInsuranceMoney": "10000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "10000",
+					"maxInsuranceMoney": "10000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 0,
+			"maxInsuranceMoney": 0
+		},
+		"cDamboMoneyTotalBase": {
+			"minInsuranceMoney": 10000,
+			"maxInsuranceMoney": 10000
+		}
+	},
+	"1703": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1703",
+		"DAMBO_NAME": "상해통원의료비",
+		"CATEGORY_NAME": "실손보상",
+		"CATEGORY_NUM": "17",
+		"CATEGORY_NAME_STR": "실손보상",
+		"샘플 실손 보험": "30만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17abe86a5563d4",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1703",
+				"INSURANCE_MONEY": "80/30",
+				"INSURANCE_DAMBO_NUM": "17ac3c6d65e373",
+				"TERM_MONEY_MAP": {
+					"80": {
+						"minInsuranceMoney": "30",
+						"maxInsuranceMoney": "30"
+					},
+					"minimumInsuranceMoney": "30",
+					"maximumInsuranceMoney": "30"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "30",
+					"maxInsuranceMoney": "30"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 0,
+			"maxInsuranceMoney": 0
+		},
+		"cDamboMoneyTotalBase": {
+			"minInsuranceMoney": 30,
+			"maxInsuranceMoney": 30
+		}
+	},
+	"1704": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1704",
+		"DAMBO_NAME": "질병입원의료비",
+		"CATEGORY_NAME": "실손보상",
+		"CATEGORY_NUM": "17",
+		"CATEGORY_NAME_STR": "실손보상",
+		"샘플 실손 보험": "10,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17abe86a5563d4",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1704",
+				"INSURANCE_MONEY": "80/10000",
+				"INSURANCE_DAMBO_NUM": "17ac3c6d65f200",
+				"TERM_MONEY_MAP": {
+					"80": {
+						"minInsuranceMoney": "10000",
+						"maxInsuranceMoney": "10000"
+					},
+					"minimumInsuranceMoney": "10000",
+					"maximumInsuranceMoney": "10000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "10000",
+					"maxInsuranceMoney": "10000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 0,
+			"maxInsuranceMoney": 0
+		},
+		"cDamboMoneyTotalBase": {
+			"minInsuranceMoney": 10000,
+			"maxInsuranceMoney": 10000
+		}
+	},
+	"1705": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1705",
+		"DAMBO_NAME": "질병통원의료비",
+		"CATEGORY_NAME": "실손보상",
+		"CATEGORY_NUM": "17",
+		"CATEGORY_NAME_STR": "실손보상",
+		"샘플 실손 보험": "30만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17abe86a5563d4",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1705",
+				"INSURANCE_MONEY": "80/30",
+				"INSURANCE_DAMBO_NUM": "17ac3c6d6601dd",
+				"TERM_MONEY_MAP": {
+					"80": {
+						"minInsuranceMoney": "30",
+						"maxInsuranceMoney": "30"
+					},
+					"minimumInsuranceMoney": "30",
+					"maximumInsuranceMoney": "30"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "30",
+					"maxInsuranceMoney": "30"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 0,
+			"maxInsuranceMoney": 0
+		},
+		"cDamboMoneyTotalBase": {
+			"minInsuranceMoney": 30,
+			"maxInsuranceMoney": 30
+		}
+	}
+}
+{
+	"1101": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1101",
+		"DAMBO_NAME": "일반사망(종신)",
+		"CATEGORY_NAME": "사망보험금",
+		"CATEGORY_NUM": "11",
+		"CATEGORY_NAME_STR": "사망보험금",
+		"샘플종신보험": "10,000만원~7,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17ac829e8cc19c",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1101",
+				"INSURANCE_MONEY": "100/5000,80/7000,60/10000",
+				"INSURANCE_DAMBO_NUM": "17abe88fb66127",
+				"TERM_MONEY_MAP": {
+					"60": {
+						"minInsuranceMoney": "10000",
+						"maxInsuranceMoney": "10000"
+					},
+					"80": {
+						"minInsuranceMoney": "7000",
+						"maxInsuranceMoney": "7000"
+					},
+					"100": {
+						"minInsuranceMoney": "5000",
+						"maxInsuranceMoney": "5000"
+					},
+					"minimumInsuranceMoney": "10000",
+					"maximumInsuranceMoney": "7000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "10000",
+					"maxInsuranceMoney": "7000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 10000,
+			"maxInsuranceMoney": 7000
+		},
+		"cDamboMoneyTotalBase": {
+			"minInsuranceMoney": 10000,
+			"maxInsuranceMoney": 7000
+		},
+		"CATEGORY_NAME2": "진단비",
+		"DAMBO_NAME2": "뇌졸중",
+		"cDamboMoneyTotalBase2": {
+			"minInsuranceMoney": 2000,
+			"maxInsuranceMoney": 2000
+		},
+		"cDamboMoneyTotal2": {
+			"minInsuranceMoney": 2000,
+			"maxInsuranceMoney": 2000
+		}
+	},
+	"1108": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1108",
+		"DAMBO_NAME": "암사망",
+		"CATEGORY_NAME": "사망보험금",
+		"CATEGORY_NUM": "11",
+		"CATEGORY_NAME_STR": "사망보험금",
+		"샘플 암보험": "2,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17ac829e8f8249",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1108",
+				"INSURANCE_MONEY": "62/2000",
+				"INSURANCE_DAMBO_NUM": "17abee1c0d035d",
+				"TERM_MONEY_MAP": {
+					"62": {
+						"minInsuranceMoney": "2000",
+						"maxInsuranceMoney": "2000"
+					},
+					"minimumInsuranceMoney": "2000",
+					"maximumInsuranceMoney": "2000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "2000",
+					"maxInsuranceMoney": "2000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 2000,
+			"maxInsuranceMoney": 2000
+		},
+		"cDamboMoneyTotalBase": {
+			"minInsuranceMoney": 2000,
+			"maxInsuranceMoney": 2000
+		},
+		"CATEGORY_NAME2": "진단비",
+		"DAMBO_NAME2": "허혈성심장질환",
+		"cDamboMoneyTotalBase2": {
+			"minInsuranceMoney": 2000,
+			"maxInsuranceMoney": 2000
+		},
+		"cDamboMoneyTotal2": {
+			"minInsuranceMoney": 2000,
+			"maxInsuranceMoney": 2000
+		}
+	},
+	"1201": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1201",
+		"DAMBO_NAME": "재해/상해80%이상후유장해",
+		"CATEGORY_NAME": "장해보상금",
+		"CATEGORY_NUM": "12",
+		"CATEGORY_NAME_STR": "장해보상금",
+		"샘플종신보험": "10,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17ac829e8cc19c",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1201",
+				"INSURANCE_MONEY": "100/10000",
+				"INSURANCE_DAMBO_NUM": "17abe88fb6a3c1",
+				"TERM_MONEY_MAP": {
+					"100": {
+						"minInsuranceMoney": "10000",
+						"maxInsuranceMoney": "10000"
+					},
+					"minimumInsuranceMoney": "10000",
+					"maximumInsuranceMoney": "10000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "10000",
+					"maxInsuranceMoney": "10000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 10000,
+			"maxInsuranceMoney": 10000
+		},
+		"cDamboMoneyTotalBase": {
+			"minInsuranceMoney": 10000,
+			"maxInsuranceMoney": 10000
+		},
+		"CATEGORY_NAME2": "실손보상",
+		"DAMBO_NAME2": "상해입원의료비",
+		"cDamboMoneyTotalBase2": {
+			"minInsuranceMoney": 10000,
+			"maxInsuranceMoney": 10000
+		},
+		"cDamboMoneyTotal2": {
+			"minInsuranceMoney": 0,
+			"maxInsuranceMoney": 0
+		}
+	},
+	"1202": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1202",
+		"DAMBO_NAME": "재해/상해50%이상후유장해",
+		"CATEGORY_NAME": "장해보상금",
+		"CATEGORY_NUM": "12",
+		"CATEGORY_NAME_STR": "장해보상금",
+		"샘플종신보험": "5,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17ac829e8cc19c",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1202",
+				"INSURANCE_MONEY": "100/5000",
+				"INSURANCE_DAMBO_NUM": "17abe88fb6b124",
+				"TERM_MONEY_MAP": {
+					"100": {
+						"minInsuranceMoney": "5000",
+						"maxInsuranceMoney": "5000"
+					},
+					"minimumInsuranceMoney": "5000",
+					"maximumInsuranceMoney": "5000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "5000",
+					"maxInsuranceMoney": "5000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 5000,
+			"maxInsuranceMoney": 5000
+		},
+		"cDamboMoneyTotalBase": {
+			"minInsuranceMoney": 5000,
+			"maxInsuranceMoney": 5000
+		},
+		"CATEGORY_NAME2": "실손보상",
+		"DAMBO_NAME2": "상해통원의료비",
+		"cDamboMoneyTotalBase2": {
+			"minInsuranceMoney": 30,
+			"maxInsuranceMoney": 30
+		},
+		"cDamboMoneyTotal2": {
+			"minInsuranceMoney": 0,
+			"maxInsuranceMoney": 0
+		}
+	},
+	"1301": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1301",
+		"DAMBO_NAME": "일반암",
+		"CATEGORY_NAME": "진단비",
+		"CATEGORY_NUM": "13",
+		"CATEGORY_NAME_STR": "진단비",
+		"샘플 암보험": "10,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17ac829e8f8249",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1301",
+				"INSURANCE_MONEY": "62/10000",
+				"INSURANCE_DAMBO_NUM": "17abee1c0d3316",
+				"TERM_MONEY_MAP": {
+					"62": {
+						"minInsuranceMoney": "10000",
+						"maxInsuranceMoney": "10000"
+					},
+					"minimumInsuranceMoney": "10000",
+					"maximumInsuranceMoney": "10000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "10000",
+					"maxInsuranceMoney": "10000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 10000,
+			"maxInsuranceMoney": 10000
+		},
+		"cDamboMoneyTotalBase": {
+			"minInsuranceMoney": 13000,
+			"maxInsuranceMoney": 13000
+		},
+		"CATEGORY_NAME2": "실손보상",
+		"DAMBO_NAME2": "질병입원의료비",
+		"cDamboMoneyTotalBase2": {
+			"minInsuranceMoney": 10000,
+			"maxInsuranceMoney": 10000
+		},
+		"cDamboMoneyTotal2": {
+			"minInsuranceMoney": 0,
+			"maxInsuranceMoney": 0
+		}
+	},
+	"1302": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1302",
+		"DAMBO_NAME": "고액암",
+		"CATEGORY_NAME": "진단비",
+		"CATEGORY_NUM": "13",
+		"CATEGORY_NAME_STR": "진단비",
+		"샘플 암보험": "30,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17ac829e8f8249",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1302",
+				"INSURANCE_MONEY": "62/30000",
+				"INSURANCE_DAMBO_NUM": "17abee1c0d4253",
+				"TERM_MONEY_MAP": {
+					"62": {
+						"minInsuranceMoney": "30000",
+						"maxInsuranceMoney": "30000"
+					},
+					"minimumInsuranceMoney": "30000",
+					"maximumInsuranceMoney": "30000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "30000",
+					"maxInsuranceMoney": "30000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 30000,
+			"maxInsuranceMoney": 30000
+		},
+		"cDamboMoneyTotalBase": {
+			"minInsuranceMoney": 30000,
+			"maxInsuranceMoney": 30000
+		},
+		"CATEGORY_NAME2": "실손보상",
+		"DAMBO_NAME2": "질병통원의료비",
+		"cDamboMoneyTotalBase2": {
+			"minInsuranceMoney": 30,
+			"maxInsuranceMoney": 30
+		},
+		"cDamboMoneyTotal2": {
+			"minInsuranceMoney": 0,
+			"maxInsuranceMoney": 0
+		}
+	},
+	"1312": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1312",
+		"DAMBO_NAME": "뇌졸중",
+		"CATEGORY_NAME": "진단비",
+		"CATEGORY_NUM": "13",
+		"CATEGORY_NAME_STR": "진단비",
+		"샘플종신보험": "2,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17ac829e8cc19c",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1312",
+				"INSURANCE_MONEY": "100/2000",
+				"INSURANCE_DAMBO_NUM": "17abe88fb6d2eb",
+				"TERM_MONEY_MAP": {
+					"100": {
+						"minInsuranceMoney": "2000",
+						"maxInsuranceMoney": "2000"
+					},
+					"minimumInsuranceMoney": "2000",
+					"maximumInsuranceMoney": "2000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "2000",
+					"maxInsuranceMoney": "2000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 2000,
+			"maxInsuranceMoney": 2000
+		},
+		"cDamboMoneyTotalBase": {
+			"minInsuranceMoney": 2000,
+			"maxInsuranceMoney": 2000
+		}
+	},
+	"1315": {
+		"USER_ID": "*common*",
+		"DAMBO_NUM": "1315",
+		"DAMBO_NAME": "허혈성심장질환",
+		"CATEGORY_NAME": "진단비",
+		"CATEGORY_NUM": "13",
+		"CATEGORY_NAME_STR": "진단비",
+		"샘플종신보험": "2,000만원",
+		"cInsuranceDamboList": [
+			{
+				"INSURANCE_NUM": "17ac829e8cc19c",
+				"INSURED_NUM": 1,
+				"INSURED_NAME": "홍길동",
+				"DAMBO_NUM": "1315",
+				"INSURANCE_MONEY": "100/2000",
+				"INSURANCE_DAMBO_NUM": "17abe88fb6e1d6",
+				"TERM_MONEY_MAP": {
+					"100": {
+						"minInsuranceMoney": "2000",
+						"maxInsuranceMoney": "2000"
+					},
+					"minimumInsuranceMoney": "2000",
+					"maximumInsuranceMoney": "2000"
+				},
+				"cDamboMoney": {
+					"minInsuranceMoney": "2000",
+					"maxInsuranceMoney": "2000"
+				}
+			}
+		],
+		"cDamboMoneyTotal": {
+			"minInsuranceMoney": 2000,
+			"maxInsuranceMoney": 2000
+		},
+		"cDamboMoneyTotalBase": {
+			"minInsuranceMoney": 2000,
+			"maxInsuranceMoney": 2000
+		}
+	}
 }

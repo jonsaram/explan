@@ -320,5 +320,130 @@
 		WHERE
 			PLAN_NUM = #{planNum}
 	</select>
+
+	<!-- 금융상품 Import(복사) -->
+	<update id="copyInvestment" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_INVESTMENT 
+        (
+			 INVESTMENT_NUM  
+			,INVESTMENT_TYPE 
+			,INVESTMENT_TITLE
+			,START_DATE      
+			,END_TERM        
+			,INTEREST_RATE   
+			,INTEREST_TYPE   
+			,TAX             
+			,TERM            
+			,REGULAR_MONEY   
+			,BASE_MONEY      
+			,COMMENT      	
+			,STATE      	
+			,CREATE_DATE     
+        ) 
+		SELECT
+			 #{newInvestmentNum}
+			,INVESTMENT_TYPE 
+			,INVESTMENT_TITLE
+			,START_DATE      
+			,END_TERM        
+			,INTEREST_RATE   
+			,INTEREST_TYPE   
+			,TAX             
+			,TERM            
+			,REGULAR_MONEY   
+			,BASE_MONEY      
+			,COMMENT      	
+			,STATE      	
+			,now()
+		FROM T_FIN_INVESTMENT
+		WHERE INVESTMENT_NUM = #{INVESTMENT_NUM}
+	</update>		            
+
+	<!-- 금융상품 Sub Data Import(복사) -->
+	<update id="copyInvestmentSubdata" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_INVESTMENT_SUBDATA 
+		(
+			 INVESTMENT_NUM
+			,PRE_FEE
+			,AFTER_PRE_FEE
+			,PRE_FEE2
+			,NORMAL_FEE	
+		) 
+		SELECT 
+			 #{newInvestmentNum}
+			,PRE_FEE
+			,AFTER_PRE_FEE
+			,PRE_FEE2
+			,NORMAL_FEE	
+		FROM T_FIN_INVESTMENT_SUBDATA
+		WHERE INVESTMENT_NUM = #{INVESTMENT_NUM}
+	</update>	
 	
+	<!-- 부동산 Import(복사) -->
+	<update id="copyImmovable" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_IMMOVABLE 
+        (
+			 IMMOVABLE_NUM
+			,IMMOVABLE_TYPE
+			,IMMOVABLE_NAME
+			,IMMOVABLE_VALUE
+			,INFLATION_RATE
+			,LOCATION
+			,COMMENT
+			,STATE
+			,START_DATE
+			,CREATE_DATE
+        ) 
+		SELECT
+			 #{newImmovableNum}
+			,IMMOVABLE_TYPE
+			,IMMOVABLE_NAME
+			,IMMOVABLE_VALUE
+			,INFLATION_RATE
+			,LOCATION
+			,COMMENT
+			,STATE
+			,START_DATE
+			,now()
+		FROM T_FIN_IMMOVABLE
+		WHERE IMMOVABLE_NUM = #{IMMOVABLE_NUM}
+	</update>		            
+	
+	<!-- 부채 Import(복사) -->
+	<update id="copyLoan" parameterType="java.util.HashMap">
+		INSERT INTO T_FIN_LOAN 
+        (
+			 LOAN_NUM			
+			,LOAN_TYPE			
+			,LOAN_COMPANY		
+			,LOAN_TOTAL		   
+			,LOAN_RATE			
+			,START_DATE		   
+			,KUCHI_TERM		   
+			,PAYBACK_TERM		
+			,PAYBACK_TYPE		
+			,PAYBACK_EACH_MONTH
+			,COMMENT			
+			,STATE			
+			,CREATE_DATE    
+        ) 
+		SELECT
+			 #{newLoanNum}
+			,LOAN_TYPE			
+			,LOAN_COMPANY		
+			,LOAN_TOTAL		   
+			,LOAN_RATE			
+			,START_DATE		   
+			,KUCHI_TERM		   
+			,PAYBACK_TERM		
+			,PAYBACK_TYPE		
+			,PAYBACK_EACH_MONTH
+			,COMMENT			
+			,STATE			
+			,now()
+		FROM T_FIN_LOAN
+		WHERE LOAN_NUM = #{LOAN_NUM}
+	</update>		            
+	
+		            
 </mapper>

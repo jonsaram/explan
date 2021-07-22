@@ -151,6 +151,9 @@ public class AjaxRequestService {
 		else if	("SAVE_IMMOVABLE_LIST"		.equals(serviceName)) returnData = investmentService.saveImmovableList		(sendParam, request);
 		else if	("SAVE_LOAN_LIST"			.equals(serviceName)) returnData = investmentService.saveLoanList			(sendParam, request);
 		else if	("SAVE_CASHFLOW_LIST"		.equals(serviceName)) returnData = investmentService.saveCashflowList		(sendParam, request);
+		else if	("COPY_INVESTMENT_LIST"		.equals(serviceName)) returnData = investmentService.copySelectInvestment	(sendParam, request);
+		else if	("COPY_IMMOVABLE_LIST"		.equals(serviceName)) returnData = investmentService.copySelectImmovable	(sendParam, request);
+		else if	("COPY_LOAN_LIST"			.equals(serviceName)) returnData = investmentService.copySelectLoan	(sendParam, request);
 		return returnData;
 	}
 }

@@ -139,5 +139,67 @@
 		</where>				
 	</delete>
 	
+	<!-- 회원 등록 -->	
+	<update id="registProcess" parameterType="java.util.HashMap">
+		INSERT INTO T_COM_MEMBER 
+		            (
+						 USER_ID         
+						,USER_NAME       
+						,USER_PW         
+						,HP	       		
+						,EMAIL	        
+						,STATE	        
+						,SERVICE_END_DATE
+						,REGIST_DATE     
+
+		            ) 
+		VALUES      
+					(
+						 #{USER_ID  	 	}		 
+		             	,#{USER_NAME	 	}	 
+		             	,#{USER_PW  	 	}	 
+		             	,#{HP	      	 	}	 
+		             	,#{EMAIL	  	 	}	 
+		             	,'W'	 
+		             	,'2029-12-31'	 
+		             	,now() 
+		            )
+	</update>
+	
+	<!-- 회원 등록 시 Chart 담보 Group 기본 Setting -->	
+	<update id="baseSetDamboGroupInfo" parameterType="java.util.HashMap">
+		INSERT INTO
+		    T_FIN_DAMBO_GROUP_INFO (
+		         USER_ID
+		        ,GROUP_NUM
+		        ,GROUP_NAME
+		        ,BASE_CHECK
+		        ,CHART_CHECK
+		    )
+		VALUES
+		    (
+		         #{USER_ID}
+		        ,#{GROUP_NUM}
+		        ,'Chart 담보 그룹'
+		        ,'1'
+		        ,'1'
+		    )
+	</update>
+	
+	<update id="baseSetDamboGroup" parameterType="java.util.HashMap">
+		INSERT T_FIN_DAMBO_GROUP(
+			 DAMBO_NUM
+			,GROUP_NUM
+			,USER_ID
+			,PIVOT_VALUE
+		)
+		SELECT 
+			 DAMBO_NUM
+			,#{GROUP_NUM}
+			,#{USER_ID}
+			,PIVOT_VALUE
+		FROM T_FIN_DAMBO_GROUP
+		WHERE USER_ID = '_common'	
+	</update>
 	
 </mapper>

@@ -49,7 +49,7 @@
 		<div id="${popupId}_contents" style="text-align:left;padding:10px">
 			<b><span>{{:msg}}</span></b>
 		</div>
-		<div><a href="javascript:_G_FN['${popupId}'].close()">ccc</a></div>
+		<div class="ctr"><a href="javascript:_G_FN['${popupId}'].close()">닫기</a></div>
 	</div>
 </script>
 

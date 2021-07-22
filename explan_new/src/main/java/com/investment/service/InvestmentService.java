@@ -27,6 +27,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.CommonAPI;
 import com.common.dao.CommonDao;
 import com.common.service.BaseService;
 import com.common.service.CommonService;
@@ -53,7 +54,7 @@ public class InvestmentService extends BaseService{
 	public Map saveInvestmentList(Map map , HttpServletRequest request ) throws Exception {
 		String keyName				= "INVESTMENT_NUM"			;
 		String tableName			= "T_FIN_INVESTMENT"		;
-		String financyType			= "M"						;
+		String financyType			= "V"						;
 		String financyName			= "investment"				;
 		String financySaveQueryId	= "Investment.saveInvestment";
 		
@@ -181,6 +182,105 @@ public class InvestmentService extends BaseService{
 		// Cashflow copy
 		commonDao.update("Investment.copyCashflow", map);
 
+		return resultInfo;
+	}
+	
+	/**
+	 * 선택한 금융상품 현재 플랜으로 Import(Copy)한다.
+	 * @param map
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Map copySelectInvestment(Map map , HttpServletRequest request ) throws Exception {
+
+		String planNum = String.valueOf(map.get("PLAN_NUM"));
+		List<Map> investmentNumList = (List<Map>)map.get("investmentNumList");
+		String subId = (Integer)map.get("subId") + "";
+		
+		for (Map investmentNumMap : investmentNumList) {
+			
+			String newInvestmentNum	= CommonAPI.makeUniqueID();
+			
+			investmentNumMap.put("PLAN_NUM"			, planNum			);
+			investmentNumMap.put("newInvestmentNum"	, newInvestmentNum	);
+			
+			commonDao.update("Investment.copyInvestment", investmentNumMap);
+			
+			if(!subId.equals("1")) {
+				commonDao.update("Investment.copyInvestmentSubdata", investmentNumMap);
+			}
+
+			investmentNumMap.put("FINANCY_NUM"	, newInvestmentNum);
+			investmentNumMap.put("FINANCY_TYPE"	, "V");
+			
+			resultInfo = commonService.registFinancyItem(investmentNumMap);
+		}
+		resultInfo = makeResult(BaseService.REQUEST_SUCCESS, "", null);
+		return resultInfo;
+	}
+	/**
+	 * 선택한 부동산을 현재 플랜으로 Import(Copy)한다.
+	 * @param map
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Map copySelectImmovable(Map map , HttpServletRequest request ) throws Exception {
+
+		String planNum = String.valueOf(map.get("PLAN_NUM"));
+		List<Map> immovableNumList = (List<Map>)map.get("immovableNumList");
+		String subId = (Integer)map.get("subId") + "";
+		
+		for (Map immovableNumMap : immovableNumList) {
+			
+			String newImmovableNum	= CommonAPI.makeUniqueID();
+			
+			immovableNumMap.put("PLAN_NUM"			, planNum			);
+			immovableNumMap.put("newImmovableNum"	, newImmovableNum	);
+			
+			commonDao.update("Investment.copyImmovable", immovableNumMap);
+			
+			immovableNumMap.put("FINANCY_NUM"	, newImmovableNum);
+			immovableNumMap.put("FINANCY_TYPE"	, "M");
+			
+			resultInfo = commonService.registFinancyItem(immovableNumMap);
+		}
+		resultInfo = makeResult(BaseService.REQUEST_SUCCESS, "", null);
+		return resultInfo;
+	}
+	
+	/**
+	 * 선택한 부채를 현재 플랜으로 Import(Copy)한다.
+	 * @param map
+	 * @param request
+	 * @return
+	 * @throws Exception
+	 */
+	@SuppressWarnings({ "unchecked", "rawtypes" })
+	public Map copySelectLoan(Map map , HttpServletRequest request ) throws Exception {
+
+		String planNum = String.valueOf(map.get("PLAN_NUM"));
+		List<Map> loanNumList = (List<Map>)map.get("loanNumList");
+		String subId = (Integer)map.get("subId") + "";
+		
+		for (Map loanNumMap : loanNumList) {
+			
+			String newLoanNum	= CommonAPI.makeUniqueID();
+			
+			loanNumMap.put("PLAN_NUM"			, planNum		);
+			loanNumMap.put("newLoanNum"			, newLoanNum	);
+			
+			commonDao.update("Investment.copyLoan", loanNumMap);
+			
+			loanNumMap.put("FINANCY_NUM"	, newLoanNum);
+			loanNumMap.put("FINANCY_TYPE"	, "L");
+			
+			resultInfo = commonService.registFinancyItem(loanNumMap);
+		}
+		resultInfo = makeResult(BaseService.REQUEST_SUCCESS, "", null);
 		return resultInfo;
 	}
 	

@@ -19,7 +19,7 @@
 		/* 콜백함수 필수 등록 */
 		 callback 			: undefined
 		/* Component Title 필수 등록 */
-		,title			: "보험 담보 비교"
+		,title				: "보험 담보 비교"
 		,cInsuranceGroup	: undefined
 		,cInsuranceGroupBase: undefined
 		,init 				: function(sendParm, callback) {
@@ -35,11 +35,11 @@
 		 // 화면 Load
 		,loadDambo : function(parm) {
 			$("#${comId}").empty();
-			this.loadBaseDamboCompareAnalysis(parm);
+			var chartDataMap = this.loadBaseDamboCompareAnalysis(parm);
 			this.loadTermDamboCompareAnalysis(parm);
 			mergeTableTBodyRowspan("${comId}");
 			mergeTableTBodyColspan("${comId}");
-			this.loadChartAnalysis(parm);
+			this.loadChartAnalysis(parm, chartDataMap);
 		 }
 		,loadBaseDamboCompareAnalysis : function(parm) {
 			var insuredName 	= parm.insuredName;
@@ -48,6 +48,7 @@
 
 			var insuranceDamboGroup 	= this.cInsuranceGroup		.makeBaseDamboAnalysisMap(parm);
 			var insuranceDamboGroupBase	= this.cInsuranceGroupBase	.makeBaseDamboAnalysisMap(parm);
+
 			var resultMap = {};
 			$.each(insuranceDamboGroup.insuranceDamboList, function() {
 				resultMap[this.DAMBO_NUM] = this;
@@ -92,6 +93,8 @@
 			var renderHtml = $("#${comId}BaseAnalysis_template").render({damboList : resultListDivde});
 			
 			$("#${comId}").append(renderHtml);
+			
+			return resultMap;
 
 		 }
 		,loadTermDamboCompareAnalysis : function(parm) {
@@ -139,12 +142,12 @@
 			var renderHtml = $("#${comId}TermAnalysis_template").render(termParm);
 			$("#${comId}").append(renderHtml);
 		 }
-		,loadChartAnalysis	: function(parm) {
+		,loadChartAnalysis	: function(parm, chartDataMap) {
 			
 			var chartDamboList = _SVC_DAMBO.getChartDamboList();
 			
-			var chartDamboAnalysisMap 		= this.cInsuranceGroup		.makeBaseDamboAnalysisMap(parm);
-			var baseChartDamboAnalysisMap 	= this.cInsuranceGroupBase	.makeBaseDamboAnalysisMap(parm);
+			//var chartDamboAnalysisMap 		= this.cInsuranceGroup		.makeBaseDamboAnalysisMap(parm);
+			//var baseChartDamboAnalysisMap 	= this.cInsuranceGroupBase	.makeBaseDamboAnalysisMap(parm);
 			
  			var radarChartData 		= [];
  			
@@ -152,7 +155,6 @@
  			var barChartData 		= [];
  			
  			var damboMap = _SVC_DAMBO.getFullDamboMap().fullDamboMap;
- 			
 			$.each(chartDamboList, function(idx) {
 				var damboNum 			= this.DAMBO_NUM	;
 				var primaryDamboName	= this.DAMBO_NAME	;
@@ -160,20 +162,18 @@
 				if(!isValid(pivotValue) || pivotValue < 1) {
 					return true;
 				}
-				var damboRate = 0;
-				var obj = chartDamboAnalysisMap.insuranceDamboMap[damboNum];
-				
 				// radar chart 설정
-				if(obj != undefined && obj.cDamboMoneyTotal != undefined) {
-					 damboRate			= Math.round(obj.cDamboMoneyTotal.maxInsuranceMoney / Number(pivotValue) * 100);
-				} 
-				var baseDamboRate = 0;
-				var baseObj = baseChartDamboAnalysisMap.insuranceDamboMap[damboNum];
-				
-				// radar chart 설정
-				if(baseObj != undefined && baseObj.cDamboMoneyTotal != undefined) {
-					baseDamboRate		= Math.round(baseObj.cDamboMoneyTotal.maxInsuranceMoney / Number(pivotValue) * 100);
-				} 
+				var maxInsuranceMoney 		= 0;
+				var damboRate 				= 0;
+				var maxInsuranceMoneyBase 	= 0;
+				var baseDamboRate 			= 0;
+				if(chartDataMap[damboNum] != undefined) {
+					maxInsuranceMoney 		= chartDataMap[damboNum].cDamboMoneyTotal.maxInsuranceMoney;
+					damboRate 				= Math.round(maxInsuranceMoney / Number(pivotValue) * 100);
+					maxInsuranceMoneyBase 	= chartDataMap[damboNum].cDamboMoneyTotalBase.maxInsuranceMoney;
+					baseDamboRate			= Math.round(maxInsuranceMoneyBase / Number(pivotValue) * 100);
+				}
+
 				var addItem = {
 	   	             "primaryDamboName"		: primaryDamboName
 	   	            ,"damboRate"			: damboRate
@@ -182,14 +182,12 @@
 				radarChartData.push(addItem);
 				
 				// bar chart 설정
-				if(obj == undefined || obj.cDamboMoneyTotal == undefined) 	cGuarantee = 0;
-				else														cGuarantee = obj.cDamboMoneyTotal.maxInsuranceMoney;
-
 				var barAddItem = {
 	   	             "damboNum"			: damboNum
 	   	            ,"primaryDamboName"	: primaryDamboName
 	   	            ,"pivotValue"		: pivotValue
-	   	            ,"cGuarantee"		: cGuarantee
+	   	            ,"cGuaranteeBase"	: maxInsuranceMoneyBase
+	   	            ,"cGuarantee"		: maxInsuranceMoney
 				}
 				barChartData.push(barAddItem);
 				
@@ -251,8 +249,21 @@
 		    	]
   		  		,colors 			: ["#FF6600", "#0D8ECF"],
 		    };
+			chartConfig["legend"] = {
+		    	"data" : [{title: "기존", color: "#FF6600"},{title: "제안", color: "#0D8ECF"}],
+				"divId" : "${comId}legendRadderDiv_template"
+			}
+			$("#${comId}legendRadderDiv_template").remove();
+			$("body").append("<div id=${comId}legendRadderDiv_template style='visibility:hidden'></div>");
 		    
  			var chart = AmCharts.makeChart( targetDiv, chartConfig);
+ 			
+			var t = $("#${comId}legendRadderDiv_template").html();
+			$("#${comId}legendRadderDiv" + insuredIdx).html(t);
+			chart.addListener("init", function(){
+				var t = $("#${comId}legendRadderDiv_template").html();
+				$("#${comId}legendRadderDiv" + insuredIdx).html(t);
+			});
 		},
 		loadBarChartByDambo : function(barChartDataList, targetDiv, insuredIdx) {
 			$.each(barChartDataList, function(fidx) {
@@ -269,8 +280,13 @@
 					    }, 
 					    {
 					        "dambo"					: "",					// 현재금액
-					        "guarantee"				: this.cGuarantee,
+					        "guarantee"				: this.cGuaranteeBase,
 					        "color"					: "#2266FF"
+					    },
+					    {
+					        "dambo"					: "",					// 제안금액
+					        "guarantee"				: this.cGuarantee,
+					        "color"					: "#99DD33"
 					    }],
 					    "valueAxes": [{
 					      	"minimum" 	: 0
@@ -281,7 +297,7 @@
 					        "lineAlpha"				: 0.1,
 					        "type"					: "column",
 					        "valueField"			: "guarantee",
-					        "labelText"				: "[[value]]"
+					        //"labelText"				: "[[value]]"
 					    }],
 					    "depth3D"		: 20,
 						"angle"			: 30,
@@ -297,7 +313,7 @@
 					}
 					if(fidx == 0 && sidx == 0) {
 						chartConfig["legend"] = {
-					    	"data" : [{title: "표준금액", color: "#DD0F00"},{title: "현재금액", color: "#2266FF"}],
+					    	"data" : [{title: "표준금액", color: "#DD0F00"},{title: "기존금액", color: "#2266FF"}],
 							"divId" : "${comId}legendCommonDiv_template"
 						}
 						$("#${comId}legendCommonDiv_template").remove();
@@ -327,9 +343,9 @@
 				parm.insuredName = this;
 				parm.insuredIdx = insuredIdx;
 				$("#${comId}").append("<div name=pageBlock option=subTitle>피보험자 : " + this + "</div>");
-				_G_FN["${comId}"].loadBaseDamboCompareAnalysis(parm);
+				var chartDataMap = _G_FN["${comId}"].loadBaseDamboCompareAnalysis(parm);
 				_G_FN["${comId}"].loadTermDamboCompareAnalysis(parm);
-				_G_FN["${comId}"].loadChartAnalysis(parm);
+				_G_FN["${comId}"].loadChartAnalysis(parm, chartDataMap);
 			});
 		 }
 	}
@@ -481,15 +497,15 @@
 			<div class="div_right">
 				<h4>필수 담보 보장 분포도</h4>
 				<div class="chart_wrap" style="width:400px; height:360px">
-					<br/><br/>
-					<div id="${comId}radarChartByDamboDiv{{:insuredIdx}}" style="width:99%;height:300px"></div>
+					<div style="text-align:left" id="${comId}legendRadderDiv{{:insuredIdx}}"></div>
+					<div id="${comId}radarChartByDamboDiv{{:insuredIdx}}" style="width:99%;height:300px;margin-top:15px"></div>
 				</div>
 			</div>
 			<div class="div_right">
 				<h4>필수 담보 분석 차트 </h4>
 				
 				<div class="chart_wrap" style="width:620px; height:360px">
-					<div id="${comId}legendCommonDiv{{:insuredIdx}}"></div>
+					<div style="text-align:left" id="${comId}legendCommonDiv{{:insuredIdx}}"></div>
 					<table width="100%" style="margin-top:15px">
 						<colgroup>
 							<col width="100%">

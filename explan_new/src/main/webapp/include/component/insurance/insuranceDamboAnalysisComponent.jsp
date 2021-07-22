@@ -69,7 +69,7 @@
  			var barChartData 		= [];
  			
  			var damboMap = _SVC_DAMBO.getFullDamboMap().fullDamboMap;
- 			
+
 			$.each(chartDamboList, function(idx) {
 				var damboNum 			= this.DAMBO_NUM	;
 				var primaryDamboName	= this.DAMBO_NAME	;
@@ -130,6 +130,7 @@
 			this.loadBarChartByDambo	(barChartDataList	, "barChartByDamboDiv" 		+ parm.insuredIdx, parm.insuredIdx);
 		},
 		loadRadarChartByDambo : function(radarChartData, targetDiv, insuredIdx) {
+
   		    var chartConfig = {
 	  			 type				: "radar"
 				,theme				: "light"
@@ -381,7 +382,7 @@
 				<h4>필수 담보 분석 차트 </h4>
 				
 				<div class="chart_wrap" style="width:620px; height:360px">
-					<div id="${comId}legendCommonDiv{{:insuredIdx}}"></div>
+					<div style="text-align:left" id="${comId}legendCommonDiv{{:insuredIdx}}"></div>
 					<table width="100%" style="margin-top:15px">
 						<colgroup>
 							<col width="100%">

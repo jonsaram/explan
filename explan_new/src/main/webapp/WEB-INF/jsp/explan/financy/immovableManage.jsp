@@ -72,6 +72,8 @@
 				,"useAutoHeight": { "margin" 	: 380 }
 				,"useBlockCopy"	: true
 				,"showRequired" : true						// 필수값 표시
+				,"wordList"		: {"START_DATE"	: "취득일"}
+
 				// 추가 옵션
 				//// Header Tooltip
 //				,"headerToolTipMap"	: headerToolTipMap
@@ -83,7 +85,7 @@
 		}
 		,addRow : function() {
 			if(!isValid(_SESSION["PLAN_NUM"])) {
-				alert('플랜을 선택 하세요.');
+				alert('고객을 선택 하세요.');
 				return;
 			}
 			explanGrid.addRow("${pageId}_gridbox");
@@ -96,7 +98,7 @@
 		}
 		,goSave	: function() {
 			if(!isValid(_SESSION["PLAN_NUM"])) {
-				alert('플랜을 선택 하세요.');
+				alert('고객을 선택 하세요.');
 				return;
 			}
 
@@ -149,6 +151,19 @@
 				alert(gridInfo.msg);
 			}
 		}
+		// 선택 예/적금 가져오기
+		,importImmovable : function(subId) {
+			if(isEmpty(_SESSION["PLAN_NUM"])) {
+				alert('고객을 선택하세요.');
+				return;
+			}
+			_SVC_POPUP.setConfig("importImmovablePopup", {}, function(returnData) {
+				if(returnData == 'S') {
+					cImmovableManage.load();
+				}
+			});
+			_SVC_POPUP.show("importImmovablePopup");
+		}
 	}
 </script>
 <!-- UI 작성 부분 -->
@@ -173,6 +188,9 @@
 				<span class="btn_list"><a href="javascript:cImmovableManage.goSave();">저장</a></span>
 				<span class="btn_list"><a href="javascript:cImmovableManage.load()  ;">새로고침</a></span>
 			</div>
+			<div class="setting">
+				<span class="btn_list"><a href="javascript:cImmovableManage.importImmovable();">부동산 가져오기</a></span>
+			</div>
 		</div>
 		<div style="width:100%;height:400px">
 			<div id="${pageId}_gridbox" style="width:100%;height:100%;"></div>
@@ -180,5 +198,8 @@
 </div>
 
 <div class="page_button"><span class="btn_page"><a href="javascript:cImmovableManage.goSave()">저장</a></span></div>
+
+<!-- Add Investment Popup -->
+<%@include  file="/include/popup/importImmovablePopup.jsp" %>
 
 <%@include  file="/include/footer.jsp" %>

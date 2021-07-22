@@ -65,7 +65,7 @@ _WORD_LIST_MAP["INVESTMENT"] = {
 	,SAVE_PLAN			: "추가 납입 계획"
 	// 부동산 관련
 	,IMMOVABLE_TYPE   	: "자산분류"
-	,IMMOVABLE_NAME   	: "자산종류"
+	,IMMOVABLE_NAME   	: "자산이름"
 	,IMMOVABLE_VALUE  	: "현재가치/시세(만원)"
 	,INFLATION_RATE   	: "자산가치 증가율(%)"
 	,LOCATION         	: "위치(주소)"
@@ -73,7 +73,7 @@ _WORD_LIST_MAP["INVESTMENT"] = {
 	// 부채 관련
 	,LOAN_TYPE			: "부채종류"
 	,LOAN_COMPANY		: "금융기관명"
-	,LOAN_TOTAL		    : "대출금(총액)"
+	,LOAN_TOTAL		    : "대출금(총액:만원)"
 	,LOAN_RATE			: "상환금리(%)"
 	,START_DATE		    : "대출시작일"
 	,KUCHI_TERM		    : "거치기간"

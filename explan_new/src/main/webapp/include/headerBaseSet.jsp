@@ -44,7 +44,7 @@
 </style>
 
 </head>
-<body class="report">
+<body class="report" style="width:1200">
 <c:set var="pageId" value="${pageId}"/>
 <c:set var="loginId" value="${loginId}"/>
 <script type="text/javascript">

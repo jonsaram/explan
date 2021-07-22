@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 package com.main.controller;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +61,10 @@ public class MainController {
 	public String login(HttpServletRequest 	request, HttpServletResponse response) throws Exception {
 		return "explan/login";
 	}
+	@RequestMapping("join.do")
+	public String join(HttpServletRequest 	request, HttpServletResponse response) throws Exception {
+		return "explan/join";
+	}
 	@RequestMapping(value = "loginProcess.do", method = RequestMethod.POST)
 	public String loginProcess(HttpServletRequest 	request, HttpServletResponse response) throws Exception {
 		String loginId = request.getParameter("loginId");
@@ -68,6 +73,26 @@ public class MainController {
 		CommonAPI.setLoginId(request, loginId);
 		
 		return "explan/loginSuccess";
+	}
+	@RequestMapping(value = "registProcess.do", method = RequestMethod.POST)
+	public String registProcess(HttpServletRequest 	request, HttpServletResponse response) throws Exception {
+		String USER_ID 	= request.getParameter("USER_ID"	);
+		String USER_PW 	= request.getParameter("USER_PW"	);
+		String USER_NAME= request.getParameter("USER_NAME"	);
+		String HP 		= request.getParameter("HP"			);
+		String EMAIL 	= request.getParameter("EMAIL"		);
+		
+		HashMap<String,String> userInfo = new HashMap<String,String>();
+		
+		userInfo.put("USER_ID"	, USER_ID 	);
+		userInfo.put("USER_NAME", USER_NAME );
+		userInfo.put("USER_PW"	, USER_PW 	);
+		userInfo.put("HP"		, HP 		);
+		userInfo.put("EMAIL"	, EMAIL 	);
+		
+		commonService.registProcess(userInfo);
+		
+		return "explan/login";
 	}
 	@RequestMapping("mainFrame.do")
 	public String mainFrame(HttpServletRequest 	request, HttpServletResponse response) throws Exception {

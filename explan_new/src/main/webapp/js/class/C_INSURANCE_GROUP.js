@@ -39,6 +39,7 @@ var _SVC_INSURANCE = {
 			});
 		}
 		// Insurance Group 생성
+		
 		var cInsuranceGroup = new C_INSURANCE_GROUP(resultInfo.data);
 		
 		cInsuranceGroup.loadAllDamboList();
@@ -500,6 +501,7 @@ var C_INSURANCE_GROUP = function(insuranceList) {
 	};
 	// 피보험자의 등록 담보 그룹을 만든다.
 	this.makeBaseDamboAnalysisMap = function(parm) {
+
 		var insuredName 	= parm.insuredName;
 		var damboGroupType 	= parm.damboGroupType;
 		
@@ -523,7 +525,7 @@ var C_INSURANCE_GROUP = function(insuranceList) {
 			var insuranceList = insuranceGroup.getInsuranceListByInsured(insuredName);
 			$.each(insuranceList, function() {
 				var insuranceDamboList 	= this.insuredMapToInsuranceDamboList[insuredName];
-				var companyName	= this.COMPANY_NAME;
+				var companyName	= this.TITLE;
 				resultMap.companyNameList.push({ "COMPANY_NAME" : companyName });
 				if(insuranceDamboList == undefined) return true;
 				$.each(insuranceDamboList, function() {

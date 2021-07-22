@@ -10,6 +10,8 @@ var C_CASHFLOW = function(parmObj) {
 
 	var planInfo = _SVC_COM.getPlanInfo(parmObj.planNum);
 	
+	if(isEmpty(planInfo)) return -1;
+	
 	this.planNum 			= parmObj.planNum;
 	this.planDate 			= planInfo.START_DATE;
 	this.incomeList			= [];

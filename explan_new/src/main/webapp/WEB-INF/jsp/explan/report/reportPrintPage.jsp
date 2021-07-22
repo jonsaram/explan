@@ -281,6 +281,7 @@
 					$("#reportAllDom").append(body);
 				});
 			});
+			window.print();
 		}
 	}
 	

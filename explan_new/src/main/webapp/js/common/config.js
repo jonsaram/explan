@@ -14,6 +14,8 @@ var _G_FN = {};
 var _SESSION = {};
 //DD LIST MAP
 var _DD_MAP = {};
+_DD_MAP["helpArray"] = {};
+
 //DD CODE MAP
 var _DD_CODE_MAP = {};
 

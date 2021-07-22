@@ -60,6 +60,7 @@
 		var resultInfo = requestService("GET_MENU_LIST", {}, "R");
 		var mainMenuMap 		= {};
 		var currentMainMenu 	= "";
+
 		$.each(resultInfo.data, function() {
 			if(mainMenuMap[this.MAIN_MENU_ID] == undefined) {
 				mainMenuMap[this.MAIN_MENU_ID] = {};

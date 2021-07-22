@@ -11,6 +11,15 @@
 		 load : function() {
 			
 			 // Cash Flow Class를 생성한다.
+			 
+			 if(isEmpty(_SESSION["PLAN_NUM"])) {
+				 $("body").hide();
+				 alert('고객을 선택 해주세요.');
+				 $("body").show();
+				 return;
+			 }
+			 
+			 
 			var cCashflow = new C_CASHFLOW({planNum : _SESSION["PLAN_NUM"]});
 
 			this.loadIncome(cCashflow);
@@ -136,7 +145,9 @@
 		}
 		,goSave	: function() {
 			if(!isValid(_SESSION["PLAN_NUM"])) {
-				alert('플랜을 선택 하세요.');
+				$("body").hide();
+				alert('고객을 선택 해주세요.');
+				$("body").show();
 				return;
 			}
 			

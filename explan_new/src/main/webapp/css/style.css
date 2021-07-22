@@ -315,6 +315,8 @@ div .page { page-break-after: always; }
 	display:flex;
 	flex-direction:row;
 }
+.jstsp { justify-content : space-between }
+
 .flex_item {flex:1 1 auto}
 .flex_item1 {flex:1 1 1}
 .flex_item2 {flex:2 1 2}

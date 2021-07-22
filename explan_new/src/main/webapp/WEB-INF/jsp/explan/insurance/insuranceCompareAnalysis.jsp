@@ -15,10 +15,11 @@
 			alert('Plan Type이 제안인경우에만 보험 비교가 가능합니다.');
 			return;
 		}
+
 		var cInsuranceGroup 		= _SVC_INSURANCE.makeInsuranceGroup(_SESSION["PLAN_NUM"]);
-		
+
 		var cInsuranceGroupBase 	= _SVC_INSURANCE.makeInsuranceGroup(_SESSION["BASE_PLAN_NUM"], cInsuranceGroup);
-		
+
 		var sendParm				= {cInsuranceGroup : cInsuranceGroup, cInsuranceGroupBase : cInsuranceGroupBase};
 		
 		// 보험 기본 분석 Component 초기화
